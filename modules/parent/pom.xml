@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.bitwormhole.starter4j</groupId>
+	<artifactId>starter4j-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<starter4j.framework.groupid>com.bitwormhole.starter4j</starter4j.framework.groupid>
+		<starter4j.framework.version>0.0.1-SNAPSHOT</starter4j.framework.version>
+		<starter4j.libs.slf4j.version>1.7.20</starter4j.libs.slf4j.version>
+		<starter4j.libs.junit.version>4.12</starter4j.libs.junit.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<artifactId>junit</artifactId>
+				<groupId>junit</groupId>
+				<version>${starter4j.libs.junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<artifactId>starter4j-afs</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-application</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-base</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-core</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-parent</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-starter</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-vlog</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-vlog-log4j</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>starter4j-vlog-simple</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

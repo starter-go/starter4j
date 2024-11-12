@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.bitwormhole.starter4j</groupId>
+        <artifactId>starter4j-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>./parent</relativePath>
+    </parent>
+
+    <artifactId>starter4j-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>afs</module>
+        <module>application</module>
+        <module>base</module>
+        <module>core</module>
+        <module>parent</module>
+
+        <module>vlog</module>
+        <module>vlog-log4j</module>
+        <module>vlog-simple</module>
+
+        <module>starter</module>
+        <module>example</module>
+    </modules>
+
+</project>
