@@ -1,62 +1,36 @@
 package com.bitwormhole.starter4j;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.bitwormhole.starter4j.application.ComponentRegistration;
 import com.bitwormhole.starter4j.application.ComponentRegistry;
 import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
+import com.bitwormhole.starter4j.application.Module;
+import com.bitwormhole.starter4j.application.ModuleBuilder;
 import com.bitwormhole.starter4j.base.StarterException;
-import com.bitwormhole.starter4j.config.DebugConfig;
-import com.bitwormhole.starter4j.config.VLogConfig;
+import com.bitwormhole.starter4j.config.ConfigAll;
 
-class ThisModule implements ComponentRegistryFunc {
+final class ThisModule implements ComponentRegistryFunc {
+
+	private static final String theModuleName = Starter.class.getName();
+	private static final String theModuleVersion = "0.0.1";
+	private static final int theModuleRevision = 1;
 
 	private ThisModule() {
 	}
 
-	public static ComponentRegistryFunc components() {
-		return new ThisModule();
+	public static Module module() {
+
+		ModuleBuilder mb = new ModuleBuilder();
+		mb.setName(theModuleName);
+		mb.setVersion(theModuleVersion);
+		mb.setRevision(theModuleRevision);
+
+		mb.setResources(SrcMainRes.resources());
+		mb.setComponents(new ThisModule());
+
+		return mb.create();
 	}
 
 	@Override
 	public void invoke(ComponentRegistry cr) throws StarterException {
-		List<ComponentRegistryFunc> list = new ArrayList<>();
-		list.add(new DebugConfig());
-		list.add(new VLogConfig());
-		for (ComponentRegistryFunc fn : list) {
-			fn.invoke(cr);
-		}
-	}
-
-	public static class Example {
-
-		public int value1;
-
-	}
-
-	private void com_example(ComponentRegistry cr) throws StarterException {
-
-		Class<?> cl = Example.class;
-		ComponentRegistration reg = cr.newRegistration();
-
-		reg.id = cl.getSimpleName();
-		reg.aliases = "";
-		reg.classes = cl.getName();
-		reg.scope = ComponentRegistration.SCOPE_SINGLETON;
-
-		reg.functionNew = () -> {
-			return new Example();
-		};
-		reg.functionInject = (injection, instance) -> {
-			final Example inst = (Example) instance;
-
-			// injection .
-			inst.value1 = 0;
-
-		};
-
-		reg.registry = cr;
-		cr.register(reg);
+		ConfigAll.registerAll(cr);
 	}
 }

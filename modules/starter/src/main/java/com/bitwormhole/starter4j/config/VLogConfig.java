@@ -8,7 +8,7 @@ import com.bitwormhole.starter4j.application.LifeCycle;
 import com.bitwormhole.starter4j.application.components.ComponentSelector;
 import com.bitwormhole.starter4j.base.StarterException;
 
-public class VLogConfig implements ComponentRegistryFunc {
+final class VLogConfig implements ComponentRegistryFunc {
 
 	@Override
 	public void invoke(ComponentRegistry cr) throws StarterException {

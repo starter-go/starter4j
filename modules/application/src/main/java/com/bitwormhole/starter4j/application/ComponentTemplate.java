@@ -1,6 +1,7 @@
 package com.bitwormhole.starter4j.application;
 
 import com.bitwormhole.starter4j.application.components.Scope;
+import com.bitwormhole.starter4j.base.StarterException;
 
 public class ComponentTemplate {
 
@@ -45,11 +46,13 @@ public class ComponentTemplate {
 
         private final ComponentRegistry mRegistry;
         private final ComponentRegistration mRegistration;
+        private final Class<T> mType;
 
-        MyRegistrationT(ComponentRegistry cr) {
+        MyRegistrationT(ComponentRegistry cr, Class<T> t) {
             ComponentRegistration reg = cr.newRegistration();
             this.mRegistry = cr;
             this.mRegistration = reg;
+            this.mType = t;
         }
 
         @Override
@@ -121,8 +124,42 @@ public class ComponentTemplate {
             return this;
         }
 
+        private String getDefaultId() {
+            return this.mType.getName();
+        }
+
+        private ComponentRegistration.NewFunc getDefaultNewFn() {
+            ComponentRegistration.NewFunc fn = () -> {
+                try {
+                    Class<T> t = this.mType;
+                    return t.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new StarterException(e);
+                }
+            };
+            return fn;
+        }
+
+        private ComponentRegistration.InjectFunc getDefaultInjectFn() {
+            ComponentRegistration.InjectFunc fn = (ext, obj) -> {
+            };
+            return fn;
+        }
+
         @Override
         public void register() {
+            if (this.mRegistration.functionNew == null) {
+                this.mRegistration.functionNew = this.getDefaultNewFn();
+            }
+            if (this.mRegistration.functionInject == null) {
+                this.mRegistration.functionInject = this.getDefaultInjectFn();
+            }
+            if (this.mRegistration.id == null) {
+                this.mRegistration.id = this.getDefaultId();
+            }
+            if (this.mRegistration.scope == null) {
+                this.mRegistration.scope = Scope.Singleton.name();
+            }
             this.mRegistry.register(this.mRegistration);
         }
     }
@@ -142,6 +179,6 @@ public class ComponentTemplate {
     }
 
     public <T> RegistrationT<T> component(Class<T> t) {
-        return new MyRegistrationT<>(this.mCR);
+        return new MyRegistrationT<>(this.mCR, t);
     }
 }

@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bitwormhole.starter4j.application.ApplicationContext;
-import com.bitwormhole.starter4j.application.ComponentRegistration;
 import com.bitwormhole.starter4j.application.ComponentRegistry;
 import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
 import com.bitwormhole.starter4j.application.ComponentTemplate;
@@ -17,7 +16,7 @@ import com.bitwormhole.starter4j.application.LifeCycle;
 import com.bitwormhole.starter4j.application.components.ComponentSelector;
 import com.bitwormhole.starter4j.base.StarterException;
 
-public class DebugConfig implements ComponentRegistryFunc {
+final class DebugConfig implements ComponentRegistryFunc {
 
 	final static Logger logger = LoggerFactory.getLogger(DebugConfig.class);
 
@@ -29,26 +28,26 @@ public class DebugConfig implements ComponentRegistryFunc {
 		this.exportDebuggerV2(cr);
 	}
 
-	private void exportDebugger(ComponentRegistry cr) throws StarterException {
+	// private void exportDebugger(ComponentRegistry cr) throws StarterException {
 
-		ComponentRegistration r = cr.newRegistration();
+	// ComponentRegistration r = cr.newRegistration();
 
-		r.id = Debugger.class.getName();
-		r.functionNew = () -> {
-			return new Debugger();
-		};
-		r.functionInject = (ie, obj) -> {
-			final ComponentSelector cs = new ComponentSelector();
-			final Debugger o = (Debugger) obj;
-			o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
-			o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
-			o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
-			o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
-			o.ac = ie.getContext();
-		};
+	// r.id = Debugger.class.getName();
+	// r.functionNew = () -> {
+	// return new Debugger();
+	// };
+	// r.functionInject = (ie, obj) -> {
+	// final ComponentSelector cs = new ComponentSelector();
+	// final Debugger o = (Debugger) obj;
+	// o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
+	// o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
+	// o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
+	// o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
+	// o.ac = ie.getContext();
+	// };
 
-		cr.register(r);
-	}
+	// cr.register(r);
+	// }
 
 	private void exportDebuggerV2(ComponentRegistry cr) {
 		ComponentTemplate ct = new ComponentTemplate(cr);

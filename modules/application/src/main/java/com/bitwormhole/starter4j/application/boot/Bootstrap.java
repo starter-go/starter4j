@@ -1,5 +1,8 @@
 package com.bitwormhole.starter4j.application.boot;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import com.bitwormhole.starter4j.application.Module;
 import com.bitwormhole.starter4j.application.Tables;
 import com.bitwormhole.starter4j.application.arguments.Arguments;
@@ -9,6 +12,8 @@ import com.bitwormhole.starter4j.base.StarterException;
 
 public final class Bootstrap {
 
+	final static Logger logger = LoggerFactory.getLogger(Bootstrap.class);
+
 	public final AppContextCore core;
 
 	private Bootstrap(AppContextCore acc) {
@@ -16,11 +21,14 @@ public final class Bootstrap {
 	}
 
 	public static void run(Module m, BootOptions opt) throws StarterException {
-
-		AppContextCore acc = new AppContextCore();
-		Bootstrap b = new Bootstrap(acc);
-		b.init(opt);
-		b.run(m);
+		try {
+			AppContextCore acc = new AppContextCore();
+			Bootstrap b = new Bootstrap(acc);
+			b.init(opt);
+			b.run(m);
+		} finally {
+			logger.info("The End");
+		}
 	}
 
 	private void init(BootOptions opt) {
