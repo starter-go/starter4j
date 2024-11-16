@@ -20,7 +20,13 @@ public class RunStarterTest {
 
 	@Test
 	public void testRunStarter() {
-		String[] args = { "apple", "banana", "cherry" };
+		String[] args = {
+				"apple",
+				"banana",
+				"cherry",
+				"--debug.enabled=1",
+				"--test.props.by.args=ok",
+		};
 		Module m = module();
 		Initializer i = Starter.init(args);
 

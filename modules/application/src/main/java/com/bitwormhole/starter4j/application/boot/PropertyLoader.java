@@ -68,7 +68,31 @@ public class PropertyLoader {
 	}
 
 	private void loadFromArgs(AppContextCore core, Properties dst) throws IOException {
-		logger.warn("no impl: PropertyLoader.loadFromArgs");
+		String[] args = core.args;
+		if (args == null) {
+			args = core.arguments.getArgs();
+		}
+		if (args == null) {
+			return;
+		}
+		for (String a : args) {
+			this.parsePropertyFromArgument(a, dst);
+		}
 	}
 
+	private void parsePropertyFromArgument(String arg, Properties dst) {
+		if (arg == null || dst == null) {
+			return;
+		}
+		final String mk1 = "--";
+		final String mk2 = "=";
+		arg = arg.trim();
+		final int i1 = arg.indexOf(mk1);
+		final int i2 = arg.indexOf(mk2);
+		if (i1 == 0 && i1 < i2) {
+			String name = arg.substring(i1 + mk1.length(), i2).trim();
+			String value = arg.substring(i2 + 1).trim();
+			dst.setProperty(name, value);
+		}
+	}
 }

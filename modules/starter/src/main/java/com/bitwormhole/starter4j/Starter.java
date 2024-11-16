@@ -6,10 +6,8 @@ import com.bitwormhole.starter4j.application.ModuleBuilder;
 public final class Starter {
 
 	private static final String theModuleName = Starter.class.getName();
-	private static final String theModuleVersion = "0.0.0";
-	private static final int theModuleRevision = 0;
-
-	// private static final String theModuleResPath = "todo.a.b.c";
+	private static final String theModuleVersion = "0.0.1";
+	private static final int theModuleRevision = 1;
 
 	private Starter() {
 	}
@@ -27,7 +25,6 @@ public final class Starter {
 		mb.setVersion(theModuleVersion);
 		mb.setRevision(theModuleRevision);
 
-		// mb.setEmbedResources(SrcMainRes.class);
 		mb.setResources(SrcMainRes.resources());
 		mb.setComponents(ThisModule.components());
 
