@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bitwormhole.starter4j.application.ComponentRegistration;
 import com.bitwormhole.starter4j.application.ComponentRegistry;
+import com.bitwormhole.starter4j.application.properties.Properties;
 import com.bitwormhole.starter4j.application.Life;
 import com.bitwormhole.starter4j.application.LifeCycle;
 import com.bitwormhole.starter4j.application.Module;
@@ -22,6 +23,11 @@ public class RunStarterTest {
 		String[] args = { "apple", "banana", "cherry" };
 		Module m = module();
 		Initializer i = Starter.init(args);
+
+		Properties props = i.getProperties();
+		props.setProperty("debug.enabled", "1");
+		props.setProperty("debug.log-properties", "1");
+
 		i.setMainModule(m);
 		i.enableToThrowException(true);
 		i.run();

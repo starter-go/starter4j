@@ -18,12 +18,10 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${starter4j.libs.slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>${starter4j.libs.slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${starter4j.framework.groupid}</groupId>

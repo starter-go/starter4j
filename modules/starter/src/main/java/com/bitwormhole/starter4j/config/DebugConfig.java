@@ -10,6 +10,8 @@ import com.bitwormhole.starter4j.application.ApplicationContext;
 import com.bitwormhole.starter4j.application.ComponentRegistration;
 import com.bitwormhole.starter4j.application.ComponentRegistry;
 import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
+import com.bitwormhole.starter4j.application.ComponentTemplate;
+import com.bitwormhole.starter4j.application.ComponentTemplate.RegistrationT;
 import com.bitwormhole.starter4j.application.Life;
 import com.bitwormhole.starter4j.application.LifeCycle;
 import com.bitwormhole.starter4j.application.components.ComponentSelector;
@@ -23,7 +25,8 @@ public class DebugConfig implements ComponentRegistryFunc {
 
 	@Override
 	public void invoke(ComponentRegistry cr) throws StarterException {
-		this.exportDebugger(cr);
+		// this.exportDebugger(cr);
+		this.exportDebuggerV2(cr);
 	}
 
 	private void exportDebugger(ComponentRegistry cr) throws StarterException {
@@ -45,6 +48,24 @@ public class DebugConfig implements ComponentRegistryFunc {
 		};
 
 		cr.register(r);
+	}
+
+	private void exportDebuggerV2(ComponentRegistry cr) {
+		ComponentTemplate ct = new ComponentTemplate(cr);
+		RegistrationT<Debugger> rt = ct.component(Debugger.class);
+		rt.setId(Debugger.class);
+		rt.onNew(() -> {
+			return new Debugger();
+		});
+		rt.onInject((ie, o) -> {
+			final ComponentSelector cs = new ComponentSelector();
+			o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
+			o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
+			o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
+			o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
+			o.ac = ie.getContext();
+		});
+		rt.register();
 	}
 
 	// Debugger 用于输出调试信息
