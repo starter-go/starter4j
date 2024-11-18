@@ -24,7 +24,7 @@ final class VLogConfig implements ComponentRegistryFunc {
 			return new LoggerConfig();
 		};
 		r.functionInject = (ie, obj) -> {
-			final ComponentSelector cs = new ComponentSelector();
+			final ComponentSelector cs = ComponentSelector.getInstance();
 			final LoggerConfig o = (LoggerConfig) obj;
 
 			o.formattersDefaultFormat = ie.getString(cs.PROPERTY("vlog.formatters.default.format"));

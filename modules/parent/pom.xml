@@ -86,6 +86,11 @@
 				<version>${starter4j.framework.version}</version>
 			</dependency>
 			<dependency>
+				<artifactId>starter4j-stopper</artifactId>
+				<groupId>${starter4j.framework.groupid}</groupId>
+				<version>${starter4j.framework.version}</version>
+			</dependency>
+			<dependency>
 				<artifactId>starter4j-vlog</artifactId>
 				<groupId>${starter4j.framework.groupid}</groupId>
 				<version>${starter4j.framework.version}</version>

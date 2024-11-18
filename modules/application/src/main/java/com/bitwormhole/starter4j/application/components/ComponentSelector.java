@@ -1,8 +1,12 @@
 package com.bitwormhole.starter4j.application.components;
 
-public class ComponentSelector {
+public final class ComponentSelector {
 
-	public ComponentSelector() {
+	private ComponentSelector() {
+	}
+
+	public static ComponentSelector getInstance() {
+		return new ComponentSelector();
 	}
 
 	/***

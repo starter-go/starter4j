@@ -3,7 +3,7 @@ package com.bitwormhole.starter4j.application;
 import com.bitwormhole.starter4j.application.components.Scope;
 import com.bitwormhole.starter4j.base.StarterException;
 
-public class ComponentTemplate {
+public final class ComponentTemplate {
 
     private final ComponentRegistry mCR;
 

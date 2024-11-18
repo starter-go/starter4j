@@ -61,7 +61,7 @@ public class RunStarterTest {
 
 	private static void com1(ComponentRegistry cr) {
 
-		final ComponentSelector cs = new ComponentSelector();
+		final ComponentSelector cs = ComponentSelector.getInstance();
 		ComponentRegistration r1 = cr.newRegistration();
 
 		r1.id = MyCom1.class.getName();
@@ -79,7 +79,7 @@ public class RunStarterTest {
 
 	private static void com2(ComponentRegistry cr) {
 
-		final ComponentSelector cs = new ComponentSelector();
+		final ComponentSelector cs = ComponentSelector.getInstance();
 		ComponentRegistration r1 = cr.newRegistration();
 
 		r1.id = MyCom2.class.getName();

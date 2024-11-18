@@ -57,7 +57,7 @@ final class DebugConfig implements ComponentRegistryFunc {
 			return new Debugger();
 		});
 		rt.onInject((ie, o) -> {
-			final ComponentSelector cs = new ComponentSelector();
+			final ComponentSelector cs = ComponentSelector.getInstance();
 			o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
 			o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
 			o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
