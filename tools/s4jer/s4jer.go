@@ -449,6 +449,7 @@ func (inst *myRunner) handleTree(tree *myResourceTree) error {
 	steps := make([]func(ctx *myContext, tree *myResourceTree) error, 0)
 
 	steps = append(steps, inst.doTree)
+	steps = append(steps, inst.doTreePrepareTargetDir)
 	steps = append(steps, inst.doTreeClean)
 	steps = append(steps, inst.doTreeScan)
 	steps = append(steps, inst.doTreeMakeResJavaFiles)
@@ -465,6 +466,19 @@ func (inst *myRunner) handleTree(tree *myResourceTree) error {
 
 func (inst *myRunner) doTree(ctx *myContext, tree *myResourceTree) error {
 	return nil
+}
+
+func (inst *myRunner) doTreePrepareTargetDir(ctx *myContext, tree *myResourceTree) error {
+	dir := tree.folderDst
+	if dir.Exists() {
+		return nil
+	}
+	// mkdir
+	opt := &afs.Options{
+		Flag:       os.O_CREATE,
+		Permission: fs.ModePerm,
+	}
+	return dir.Mkdirs(opt)
 }
 
 func (inst *myRunner) doTreeClean(ctx *myContext, tree *myResourceTree) error {
@@ -506,12 +520,19 @@ func (inst *myRunner) doTreeScan(ctx *myContext, tree *myResourceTree) error {
 		tree.items = append(tree.items, resfile)
 		return nil
 	}
-	return scanner.scan(tree.folderRes)
+	dir := tree.folderRes
+	vlog.Info("scan res-dir   at %s", dir.GetPath())
+	return scanner.scan(dir)
 }
 
 func (inst *myRunner) doTreeMakeMainJavaFile(ctx *myContext, tree *myResourceTree) error {
 	builder := &myMainResJavaFileBuilder{tree: tree}
-	return builder.create()
+	err := builder.create()
+	if err == nil {
+		file := builder.mainResFile
+		vlog.Info("generated file at %s", file.String())
+	}
+	return err
 }
 
 func (inst *myRunner) doTreeMakeResJavaFiles(ctx *myContext, tree *myResourceTree) error {
@@ -579,6 +600,7 @@ func (inst *myRunner) doLoadConfigFile(ctx *myContext) error {
 		}
 		ctx.trees = append(ctx.trees, tree)
 	}
+	vlog.Info("load config from %s", file.GetPath())
 	return nil
 }
 
