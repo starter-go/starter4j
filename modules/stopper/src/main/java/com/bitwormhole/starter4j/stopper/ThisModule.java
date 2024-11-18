@@ -9,6 +9,7 @@ import com.bitwormhole.starter4j.application.components.ComponentSelector;
 import com.bitwormhole.starter4j.application.Module;
 import com.bitwormhole.starter4j.application.ModuleBuilder;
 import com.bitwormhole.starter4j.base.StarterException;
+import com.bitwormhole.starter4j.stopper.res.m.StopperSrcMain;
 
 class ThisModule implements ComponentRegistryFunc {
 
@@ -26,7 +27,7 @@ class ThisModule implements ComponentRegistryFunc {
         mb.setRevision(theModuleRev);
 
         mb.setComponents(new ThisModule());
-        mb.setEmbedResources(Stopper.class);
+        mb.setResources(StopperSrcMain.res());
 
         mb.depend(Starter.module());
 

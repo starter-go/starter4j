@@ -1,8 +1,10 @@
 package com.bitwormhole.starter4j.application;
 
-import com.bitwormhole.starter4j.application.resources.ClasspathTreeResources;
+import java.util.List;
+
+import com.bitwormhole.starter4j.application.resources.EmbeddedRes;
+import com.bitwormhole.starter4j.application.resources.EmbeddedResources;
 import com.bitwormhole.starter4j.application.resources.Resources;
-import com.bitwormhole.starter4j.base.SafeMode;
 
 public class ModuleBuilder {
 
@@ -42,9 +44,11 @@ public class ModuleBuilder {
 		return this;
 	}
 
-	public ModuleBuilder setEmbedResources(Class<?> at) {
-		SafeMode mode = SafeMode.Safe;
-		this.inner.res = new ClasspathTreeResources(at, mode);
+	public ModuleBuilder setEmbedResources(List<EmbeddedRes> src) {
+		// SafeMode mode = SafeMode.Safe;
+		// this.inner.res = new ClasspathTreeResources(at, mode);
+
+		this.inner.res = EmbeddedResources.create(src);
 		return this;
 	}
 

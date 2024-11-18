@@ -12,7 +12,7 @@
 //      for_list_1
 ////////////////////////////////////////////////////////////////////////////////
 
-package {{.package_name}};
+package com.bitwormhole.starter4j.res.t;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
 import com.bitwormhole.starter4j.application.resources.EmbeddedRes;
 
 // 这里限制为包内访问。如需从其它包访问 ，必须手工导出
-final class {{.class_name}} {
+final class EmbeddedResMain {
 
-    private {{.class_name}}() {        
+    private EmbeddedResMain() {        
     }
 
     public static List<EmbeddedRes> all() {
@@ -30,7 +30,12 @@ final class {{.class_name}} {
 
         // list.add(new ExampleEmbedRes84b6331());
 
-        {{.for_list_1}}
+        
+        list.add(new EmbeddedResf187203());
+        list.add(new EmbeddedResf7a121b());
+        list.add(new EmbeddedRes3c650a9());
+        list.add(new EmbeddedRes3f0a175());
+
 
         return list;
     }

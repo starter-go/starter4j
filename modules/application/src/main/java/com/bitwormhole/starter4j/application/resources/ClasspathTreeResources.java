@@ -18,7 +18,11 @@ import com.bitwormhole.starter4j.base.Paths;
 import com.bitwormhole.starter4j.base.SafeMode;
 import com.bitwormhole.starter4j.base.StarterException;
 
-public class ClasspathTreeResources implements Resources {
+/***
+ * 已废弃：用 EmbeddedResources 代替
+ */
+@Deprecated
+  class ClasspathTreeResources implements Resources {
 
 	final static Logger logger = LoggerFactory.getLogger(ClasspathTreeResources.class);
 

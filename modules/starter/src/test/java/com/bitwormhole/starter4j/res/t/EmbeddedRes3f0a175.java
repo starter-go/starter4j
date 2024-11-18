@@ -9,29 +9,33 @@
 // params:
 //      package_name
 //      class_name
+//      data_size
+//      res_path
 //      for_list_1
 ////////////////////////////////////////////////////////////////////////////////
 
-package {{.package_name}};
-
-import java.util.ArrayList;
-import java.util.List;
+package com.bitwormhole.starter4j.res.t;
 
 import com.bitwormhole.starter4j.application.resources.EmbeddedRes;
 
-// 这里限制为包内访问。如需从其它包访问 ，必须手工导出
-final class {{.class_name}} {
+final class EmbeddedRes3f0a175 implements EmbeddedRes {
 
-    private {{.class_name}}() {        
+    @Override
+    public String path() {
+        return "/js/base.js";
     }
 
-    public static List<EmbeddedRes> all() {
-        List<EmbeddedRes> list = new ArrayList<>();
+    @Override
+    public int size() {
+        return 0;
+    }
 
-        // list.add(new ExampleEmbedRes84b6331());
+    @Override
+    public void hex(StringBuilder out) {
+        
+        // out.append("0123456789abcdef");
 
-        {{.for_list_1}}
+        
 
-        return list;
     }
 }

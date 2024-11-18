@@ -6,6 +6,7 @@ import com.bitwormhole.starter4j.application.Module;
 import com.bitwormhole.starter4j.application.ModuleBuilder;
 import com.bitwormhole.starter4j.base.StarterException;
 import com.bitwormhole.starter4j.config.ConfigAll;
+import com.bitwormhole.starter4j.res.m.StarterSrcMain;
 
 final class ThisModule implements ComponentRegistryFunc {
 
@@ -23,7 +24,7 @@ final class ThisModule implements ComponentRegistryFunc {
 		mb.setVersion(theModuleVersion);
 		mb.setRevision(theModuleRevision);
 
-		mb.setResources(SrcMainRes.resources());
+		mb.setResources(StarterSrcMain.res());
 		mb.setComponents(new ThisModule());
 
 		return mb.create();

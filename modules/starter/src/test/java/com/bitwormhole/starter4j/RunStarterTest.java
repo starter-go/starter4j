@@ -14,6 +14,8 @@ import com.bitwormhole.starter4j.application.ModuleBuilder;
 import com.bitwormhole.starter4j.application.components.ComponentSelector;
 import com.bitwormhole.starter4j.vlog.simple.VLogSimple;
 
+import com.bitwormhole.starter4j.res.t.StarterSrcTest;
+
 public class RunStarterTest {
 
 	final static Logger logger = LoggerFactory.getLogger(RunStarterTest.class);
@@ -46,7 +48,7 @@ public class RunStarterTest {
 		mb.setVersion("1.0");
 		mb.setRevision(1);
 
-		mb.setEmbedResources(TestRes.class);
+		mb.setResources(StarterSrcTest.res());
 
 		mb.depend(Starter.module());
 		mb.depend(VLogSimple.module());
