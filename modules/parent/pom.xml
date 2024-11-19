@@ -14,13 +14,13 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<starter4j.framework.groupid>com.bitwormhole.starter4j</starter4j.framework.groupid>
 		<starter4j.framework.version>0.0.0-dev-snapshot</starter4j.framework.version>
-		<starter4j.libs.slf4j.version>1.7.20</starter4j.libs.slf4j.version>
+		<starter4j.libs.slf4j.version>2.0.7</starter4j.libs.slf4j.version>
 		<starter4j.libs.junit.version>4.12</starter4j.libs.junit.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			
+
 			<!-- junit -->
 
 			<dependency>
@@ -34,23 +34,23 @@
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-api</artifactId>
-			    <version>${starter4j.libs.slf4j.version}</version>
+				<artifactId>slf4j-api</artifactId>
+				<version>${starter4j.libs.slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-android</artifactId>
-			    <version>${starter4j.libs.slf4j.version}</version>
+				<artifactId>slf4j-android</artifactId>
+				<version>${starter4j.libs.slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-simple</artifactId>
-			    <version>${starter4j.libs.slf4j.version}</version>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${starter4j.libs.slf4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-log4j12</artifactId>
-			    <version>${starter4j.libs.slf4j.version}</version>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${starter4j.libs.slf4j.version}</version>
 			</dependency>
 
 			<!-- starter_modules -->
