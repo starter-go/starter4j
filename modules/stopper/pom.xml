@@ -20,6 +20,11 @@
 			<groupId>com.bitwormhole.starter4j</groupId>
 		</dependency>
 		<dependency>
+			<artifactId>starter4j-vlog-simple</artifactId>
+			<groupId>com.bitwormhole.starter4j</groupId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>
 			<scope>test</scope>
