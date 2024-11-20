@@ -6,17 +6,32 @@ public final class Promise<T> {
 
     private final PromiseInner<T> inner;
 
-    private Promise(PromiseInner<T> _it) {
-        this.inner = _it;
+    private Promise(PromiseInner<T> pi) {
+        this.inner = pi;
     }
+
+    static <T> Promise<T> create(PromiseBuilder<T> b) {
+        PromiseInner<T> it = new PromiseInner<>(b);
+        return new Promise<>(it);
+    }
+
+    // public
 
     public interface Task<T> {
         Result<T> run();
     }
 
-    public static <T> Promise<T> init(PromiseContext ctx, Task<T> t) {
-        PromiseInner<T> it = new PromiseInner<>(ctx, t);
-        return new Promise<>(it);
+    public static <T> PromiseBuilder<T> init(PromiseContext ctx, Class<T> type) {
+        PromiseBuilder<T> b = new PromiseBuilder<>();
+        b.setContext(ctx);
+        b.setType(type);
+        return b;
+    }
+
+    public static <T> PromiseBuilder<T> init(Class<T> type) {
+        PromiseBuilder<T> b = new PromiseBuilder<>();
+        b.setType(type);
+        return b;
     }
 
     public Promise<T> Then(ResultHandler<T> h) {
@@ -34,7 +49,15 @@ public final class Promise<T> {
         return this;
     }
 
-    public void Start() {
+    public PromiseContext context() {
+        return new PromiseContext(this.inner.context);
+    }
+
+    public Class<T> type() {
+        return this.inner.type;
+    }
+
+    public void start() {
         Executor bg = this.inner.context.getBackground();
         PromiseRunner<T> runner = new PromiseRunner<>(this.inner);
         bg.execute(runner);

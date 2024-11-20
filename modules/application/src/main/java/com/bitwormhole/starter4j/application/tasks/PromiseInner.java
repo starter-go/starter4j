@@ -8,16 +8,23 @@ final class PromiseInner<T> {
 
     public final PromiseContext context;
     public final Task<T> task;
+    public final Class<T> type;
     public final ResultHandlerChain<T> handlerChain;
 
-    public PromiseInner(PromiseContext ctx, Task<T> t) {
+    public PromiseInner(PromiseBuilder<T> b) {
 
-        ctx = prepareContext(ctx);
-        t = prepareTask(t);
+        PromiseContext ct = b.getContext();
+        Task<T> ta = b.getTask();
+        Class<T> ty = b.getType();
+        ResultHandlerChain<T> hc = new ResultHandlerChain<>();
 
-        this.context = ctx;
-        this.handlerChain = new ResultHandlerChain<>();
-        this.task = t;
+        ct = prepareContext(ct);
+        ta = prepareTask(ta);
+
+        this.context = ct;
+        this.handlerChain = hc;
+        this.task = ta;
+        this.type = ty;
     }
 
     private static final class MyDefaultWorker implements Executor {
