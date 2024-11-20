@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.bitwormhole.starter4j</groupId>
 		<artifactId>starter4j-parent</artifactId>
-		<version>0.0.1-r3-snapshot</version>
+		<version>0.0.1-r4-snapshot</version>
 		<relativePath>./../parent</relativePath>
 	</parent>
 
@@ -18,6 +18,11 @@
 		<dependency>
 			<artifactId>starter4j-starter</artifactId>
 			<groupId>com.bitwormhole.starter4j</groupId>
+		</dependency>
+		<dependency>
+			<artifactId>starter4j-vlog-simple</artifactId>
+			<groupId>com.bitwormhole.starter4j</groupId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>
