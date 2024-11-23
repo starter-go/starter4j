@@ -27,6 +27,7 @@ public class RunStarterTest {
 				"banana",
 				"cherry",
 				"--debug.enabled=1",
+				"--debug.log-environment=0",
 				"--test.props.by.args=ok",
 		};
 		Module m = module();

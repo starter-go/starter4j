@@ -50,6 +50,7 @@ public final class ComponentTemplate {
 
         MyRegistrationT(ComponentRegistry cr, Class<T> t) {
             ComponentRegistration reg = cr.newRegistration();
+            reg.id = t.getName();
             this.mRegistry = cr;
             this.mRegistration = reg;
             this.mType = t;
