@@ -12,7 +12,7 @@ final class ThisModule implements ComponentRegistryFunc {
 
 	private static final String theModuleName = Starter.class.getName();
 	private static final String theModuleVersion = "0.0.1";
-	private static final int theModuleRevision = 1;
+	private static final int theModuleRevision = 5;
 
 	private ThisModule() {
 	}
