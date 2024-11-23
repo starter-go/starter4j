@@ -14,8 +14,8 @@ import com.bitwormhole.starter4j.stopper.res.m.StopperSrcMain;
 class ThisModule implements ComponentRegistryFunc {
 
     final static String theModuleName = Stopper.class.getName();
-    final static String theModuleVersion = "0.0.0";
-    final static int theModuleRev = 0;
+    final static String theModuleVersion = "0.0.1";
+    final static int theModuleRev = 5;
 
     private ThisModule() {
     }
