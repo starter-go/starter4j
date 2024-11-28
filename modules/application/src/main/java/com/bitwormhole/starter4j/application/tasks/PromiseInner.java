@@ -27,7 +27,7 @@ final class PromiseInner<T> {
         this.type = ty;
     }
 
-    private static final class MyDefaultWorker implements Executor {
+    private static final class MyDefaultWorker implements BackgroundExecutor, ForegroundExecutor {
         @Override
         public void execute(Runnable r) {
             r.run();
