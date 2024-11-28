@@ -1,11 +1,9 @@
 package com.bitwormhole.starter4j.application.tasks;
 
-import java.util.concurrent.Executor;
-
 public class PromiseContext {
 
-    private Executor foreground;
-    private Executor background;
+    private ForegroundExecutor foreground;
+    private BackgroundExecutor background;
 
     public PromiseContext() {
     }
@@ -18,20 +16,19 @@ public class PromiseContext {
         this.foreground = src.foreground;
     }
 
-    public Executor getBackground() {
-        return background;
-    }
-
-    public void setBackground(Executor background) {
-        this.background = background;
-    }
-
-    public Executor getForeground() {
+    public ForegroundExecutor getForeground() {
         return foreground;
     }
 
-    public void setForeground(Executor foreground) {
+    public void setForeground(ForegroundExecutor foreground) {
         this.foreground = foreground;
     }
 
+    public BackgroundExecutor getBackground() {
+        return background;
+    }
+
+    public void setBackground(BackgroundExecutor background) {
+        this.background = background;
+    }
 }

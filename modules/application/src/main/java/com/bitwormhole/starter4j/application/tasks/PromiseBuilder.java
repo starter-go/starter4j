@@ -1,7 +1,5 @@
 package com.bitwormhole.starter4j.application.tasks;
 
-import java.util.concurrent.Executor;
-
 public class PromiseBuilder<T> {
 
     private PromiseContext context;
@@ -47,7 +45,7 @@ public class PromiseBuilder<T> {
         return this;
     }
 
-    public PromiseBuilder<T> setForeground(Executor fg) {
+    public PromiseBuilder<T> setForeground(ForegroundExecutor fg) {
         if (fg == null) {
             return this;
         }
@@ -55,7 +53,7 @@ public class PromiseBuilder<T> {
         return this;
     }
 
-    public PromiseBuilder<T> setBackground(Executor bg) {
+    public PromiseBuilder<T> setBackground(BackgroundExecutor bg) {
         if (bg == null) {
             return this;
         }
