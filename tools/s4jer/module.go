@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	theModuleName    = "github.com/starter-go/starter4j/tools/s4jer"
-	theModuleVersion = "0.0.0"
-	theModuleRev     = 0
+	theModuleName     = "github.com/starter-go/starter4j/tools/s4jer"
+	theModuleVersion  = "0.0.2"
+	theModuleRevision = 6
 )
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ func Module() application.Module {
 	mb := &application.ModuleBuilder{}
 	mb.Name(theModuleName)
 	mb.Version(theModuleVersion)
-	mb.Revision(theModuleRev)
+	mb.Revision(theModuleRevision)
 
 	allcom := &myComponents{}
 	mb.Components(allcom.all)
