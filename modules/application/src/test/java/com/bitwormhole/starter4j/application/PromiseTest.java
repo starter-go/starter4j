@@ -13,7 +13,8 @@ public class PromiseTest {
 
     @Test
     public void testPromise() {
-        Promise.init(null, () -> {
+
+        Promise.init(Long.class).Try(() -> {
             Result<Long> res = new Result<>();
             res.setValue(666L);
             logger.info("Promise.run ... ");
@@ -35,7 +36,7 @@ public class PromiseTest {
         }).Finally((res) -> {
             logger.info("Promise.Finally: {}", res);
             return res;
-        }).Start();
+        }).start();
     }
 
 }

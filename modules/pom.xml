@@ -28,6 +28,7 @@
 
         <module>starter</module>
         <module>stopper</module>
+        <module>swing</module>
         <module>example</module>
     </modules>
 

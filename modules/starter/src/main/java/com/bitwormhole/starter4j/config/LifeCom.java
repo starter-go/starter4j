@@ -52,9 +52,9 @@ public final class LifeCom implements ComponentRegistryFunc, LifeCycle {
     private void onStarted() {
         this.t2 = System.currentTimeMillis();
         final long span = t2 - t1;
-        float ms = span / 1000.0f;
+        float sec = span / 1000.0f;
         String appname = this.ac.getMainModule().name();
-        String msg = "started app [" + appname + "] in " + ms + " ms";
+        String msg = "started app [" + appname + "] in " + sec + " sec";
         logger.info(msg);
     }
 
