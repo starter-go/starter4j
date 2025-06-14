@@ -1,27 +1,26 @@
 package com.bitwormhole.starter4j.swing;
 
-import java.lang.System;
 import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.SwingUtilities;
 
 public final class Main {
 
     public static void main(String[] args) {
         try {
             Main m = new Main();
-            m.display();
+            m.display(args);
         } catch (InvocationTargetException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void display() throws InvocationTargetException, InterruptedException {
-        System.out.println(this);
-        SwingUtilities.invokeAndWait(() -> {
-            ExampleFrame f = ExampleFrame.create();
-            f.setVisible(true);
-        });
+    private void display(String[] args) throws InvocationTargetException, InterruptedException {
+
+        SwingApplicationConfig cfg = new SwingApplicationConfig();
+        cfg.setArguments(args);
+        cfg.setModule(ExampleModule.module());
+        cfg.setMainFrameClass(ExampleFrame.class);
+        SwingApplicationStarter.run(cfg);
+
     }
 
 }
