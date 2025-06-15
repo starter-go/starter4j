@@ -6,6 +6,8 @@ public interface FrameManager {
 
     void show(String frameName);
 
+    void show(Goal goal);
+
     FrameRegistration find(Class<?> frameClass);
 
     FrameRegistration find(String frameName);

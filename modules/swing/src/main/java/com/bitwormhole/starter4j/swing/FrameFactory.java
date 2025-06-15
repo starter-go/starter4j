@@ -4,6 +4,6 @@ import javax.swing.JFrame;
 
 public interface FrameFactory {
 
-    JFrame createFrame();
+    JFrame createFrame(Goal goal);
 
 }
