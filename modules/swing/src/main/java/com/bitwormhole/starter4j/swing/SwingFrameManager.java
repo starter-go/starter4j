@@ -35,8 +35,8 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
     public SwingFrameManager() {
     }
 
-    private void innerShowFR(FrameRegistration fr) {
-        JFrame frame = fr.getHolder().getFrame();
+    private void innerShowFR(FrameRegistration fr, Goal goal) {
+        JFrame frame = fr.getHolder().getFrame(goal);
         frame.setVisible(true);
     }
 
@@ -53,12 +53,15 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
         MyCache c = new MyCache();
         List<Object> src = new ArrayList<>();
         src = this.context.selectComponents(".jframe", src);
+        List<FrameRegistration> tmp = new ArrayList<>();
         for (Object obj : src) {
             if (obj instanceof FrameRegistry) {
                 FrameRegistry fr1 = (FrameRegistry) obj;
-                FrameRegistration fr2 = fr1.getFrameRegistration();
-                this.loadFrameToCache(c, fr2);
+                tmp = fr1.listRegistrations(tmp);
             }
+        }
+        for (FrameRegistration fr2 : tmp) {
+            this.loadFrameToCache(c, fr2);
         }
         return c;
     }
@@ -104,14 +107,18 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
 
     @Override
     public void show(Class<?> frameClass) {
+        Goal goal = new Goal();
         FrameRegistration fr = this.find(frameClass);
-        this.innerShowFR(fr);
+        goal.setType(frameClass);
+        this.innerShowFR(fr, goal);
     }
 
     @Override
     public void show(String frameName) {
+        Goal goal = new Goal();
         FrameRegistration fr = this.find(frameName);
-        this.innerShowFR(fr);
+        goal.setName(frameName);
+        this.innerShowFR(fr, goal);
     }
 
     @Override
@@ -230,6 +237,28 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
 
     public static ComponentRegistryFunc registry() {
         return new MyComponentRegistryFunc();
+    }
+
+    @Override
+    public void show(Goal goal) {
+
+        FrameRegistration fr;
+        Class<?> type = goal.getType();
+        String name = goal.getName();
+
+        if (type != null) {
+            fr = this.find(type);
+            this.innerShowFR(fr, goal);
+            return;
+        }
+
+        if (name != null) {
+            fr = this.find(name);
+            this.innerShowFR(fr, goal);
+            return;
+        }
+
+        throw new RuntimeException("bad goal: " + goal);
     }
 
 }

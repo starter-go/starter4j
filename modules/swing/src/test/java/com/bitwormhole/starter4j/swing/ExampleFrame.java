@@ -1,6 +1,7 @@
 package com.bitwormhole.starter4j.swing;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -82,7 +83,7 @@ public final class ExampleFrame extends JFrame {
     private final static class MyFactory implements FrameFactory, FrameRegistry {
 
         @Override
-        public JFrame createFrame() {
+        public JFrame createFrame(Goal goal) {
             JFrame f = new ExampleFrame();
             f.setSize(640, 480);
             f.setVisible(true);
@@ -92,13 +93,14 @@ public final class ExampleFrame extends JFrame {
         }
 
         @Override
-        public FrameRegistration getFrameRegistration() {
+        public List<FrameRegistration> listRegistrations(List<FrameRegistration> dst) {
             FrameRegistration fr = new FrameRegistration();
             fr.setFactory(this);
             fr.setName(ExampleFrame.class.getName());
             fr.setType(ExampleFrame.class);
             fr.setSingleton(false);
-            return fr;
+            dst.add(fr);
+            return dst;
         }
     }
 
