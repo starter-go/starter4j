@@ -14,18 +14,18 @@ public class DefaultFrameHolder implements FrameHolder {
     }
 
     @Override
-    public JFrame getFrame() {
+    public JFrame getFrame(Goal goal) {
         if (this.singleton) {
-            return this.getFrameAsSingleton();
+            return this.getFrameAsSingleton(goal);
         } else {
-            return this.factory.createFrame();
+            return this.factory.createFrame(goal);
         }
     }
 
-    private JFrame getFrameAsSingleton() {
+    private JFrame getFrameAsSingleton(Goal goal) {
         JFrame f = this.frame;
         if (f == null) {
-            f = this.factory.createFrame();
+            f = this.factory.createFrame(goal);
             this.frame = f;
         }
         return f;
