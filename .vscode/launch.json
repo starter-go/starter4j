@@ -9,7 +9,7 @@
             "type": "java",
             "name": "starter-swing-test-main",
             "request": "launch",
-            "mainClass": "com.bitwormhole.starter4j.swing.Main"
+            "mainClass": "${file}"
         }
     ]
 }
