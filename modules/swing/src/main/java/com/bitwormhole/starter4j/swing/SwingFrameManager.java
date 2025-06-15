@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.bitwormhole.starter4j.application.ApplicationContext;
 import com.bitwormhole.starter4j.application.ComponentRegistry;
 import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
+import com.bitwormhole.starter4j.application.ComponentAutoRegistrar;
 import com.bitwormhole.starter4j.application.ComponentTemplate;
 import com.bitwormhole.starter4j.application.LifeCycle;
 import com.bitwormhole.starter4j.application.ComponentTemplate.RegistrationT;
@@ -204,39 +205,36 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
         }
     }
 
-    private static final class MyComponentRegistryFunc implements ComponentRegistryFunc {
+    private static ComponentRegistryFunc innerComRegistrar() {
+        return (cr) -> {
+            final ComponentTemplate ct = new ComponentTemplate(cr);
+            final RegistrationT<SwingFrameManager> rt = ct.component(SwingFrameManager.class);
+            rt.setId(SwingFrameManager.class)
+                    .onNew(() -> {
+                        return new SwingFrameManager();
+                    }).onInject((ie, o) -> {
+                        // final ComponentSelector cs = ComponentSelector.getInstance();
 
-        @Override
-        public void invoke(ComponentRegistry cr) throws StarterException {
+                        // o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
+                        // o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
+                        // o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
+                        // o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
 
-            ComponentTemplate ct = new ComponentTemplate(cr);
-            RegistrationT<SwingFrameManager> rt = ct.component(SwingFrameManager.class);
-            rt.setId(SwingFrameManager.class);
-            rt.onNew(() -> {
-                return new SwingFrameManager();
-            });
-            rt.onInject((ie, o) -> {
-                // final ComponentSelector cs = ComponentSelector.getInstance();
+                        // ie.get
 
-                // o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
-                // o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
-                // o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
-                // o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
+                        ApplicationContext ctx = ie.getContext();
+                        Class<?> mfc = (Class<?>) ctx.getAttributes().getAttr(SwingConst.MAIN_FRAME_CLASS, true);
 
-                // ie.get
-
-                ApplicationContext ctx = ie.getContext();
-                Class<?> mfc = (Class<?>) ctx.getAttributes().getAttr(SwingConst.MAIN_FRAME_CLASS, true);
-
-                o.context = ctx;
-                o.mainFrameClass = mfc;
-            });
-            rt.register();
-        }
+                        o.context = ctx;
+                        o.mainFrameClass = mfc;
+                    }).register();
+        };
     }
 
-    public static ComponentRegistryFunc registry() {
-        return new MyComponentRegistryFunc();
+    public static ComponentAutoRegistrar autoComRegistrar() {
+        return (list) -> {
+            list.add(innerComRegistrar());
+        };
     }
 
     @Override

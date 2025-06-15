@@ -1,14 +1,11 @@
 package com.bitwormhole.starter4j.swing;
 
-import com.bitwormhole.starter4j.application.ComponentRegistry;
-import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
 import com.bitwormhole.starter4j.application.Module;
 import com.bitwormhole.starter4j.application.ModuleBuilder;
-import com.bitwormhole.starter4j.base.StarterException;
 import com.bitwormhole.starter4j.res.m.StarterSrcMain;
 import com.bitwormhole.starter4j.swing.config.ExampleConfig;
 
-public class ExampleModule implements ComponentRegistryFunc {
+public class ExampleModule {
 
     private static final String theModuleName = ExampleModule.class.getName();
     private static final String theModuleVersion = "0.0.0";
@@ -25,14 +22,9 @@ public class ExampleModule implements ComponentRegistryFunc {
         mb.setRevision(theModuleRevision);
 
         mb.setResources(StarterSrcMain.res());
-        mb.setComponents(new ExampleModule());
+        mb.setComponents(ExampleConfig.all());
 
         return mb.create();
-    }
-
-    @Override
-    public void invoke(ComponentRegistry cr) throws StarterException {
-        ExampleConfig.registerAll(cr);
     }
 
 }

@@ -1,8 +1,6 @@
 package com.bitwormhole.starter4j.swing;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -11,14 +9,9 @@ import javax.swing.JFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bitwormhole.starter4j.application.ComponentRegistry;
-import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
-import com.bitwormhole.starter4j.application.ComponentTemplate;
-import com.bitwormhole.starter4j.application.ComponentTemplate.RegistrationT;
 import com.bitwormhole.starter4j.application.tasks.Promise;
 import com.bitwormhole.starter4j.application.tasks.PromiseContext;
 import com.bitwormhole.starter4j.application.tasks.Result;
-import com.bitwormhole.starter4j.base.StarterException;
 
 public final class ExampleFrame extends JFrame {
 
@@ -80,8 +73,7 @@ public final class ExampleFrame extends JFrame {
         }
     }
 
-    private final static class MyFactory implements FrameFactory, FrameRegistry {
-
+    private final static class MyFactory implements FrameFactory {
         @Override
         public JFrame createFrame(Goal goal) {
             JFrame f = new ExampleFrame();
@@ -91,47 +83,16 @@ public final class ExampleFrame extends JFrame {
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             return f;
         }
-
-        @Override
-        public List<FrameRegistration> listRegistrations(List<FrameRegistration> dst) {
-            FrameRegistration fr = new FrameRegistration();
-            fr.setFactory(this);
-            fr.setName(ExampleFrame.class.getName());
-            fr.setType(ExampleFrame.class);
-            fr.setSingleton(false);
-            dst.add(fr);
-            return dst;
-        }
     }
 
-    private static class MyComponentRegistryFunc implements ComponentRegistryFunc {
-
-        @Override
-        public void invoke(ComponentRegistry cr) throws StarterException {
-
-            ComponentTemplate ct = new ComponentTemplate(cr);
-            RegistrationT<MyFactory> rt = ct.component(MyFactory.class);
-            rt.setId(MyFactory.class);
-            rt.addClass("jframe");
-            rt.onNew(() -> {
-                return new MyFactory();
-            });
-            rt.onInject((ie, o) -> {
-                // final ComponentSelector cs = ComponentSelector.getInstance();
-
-                // o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
-                // o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
-                // o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
-                // o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
-
-                // o.context = ie.getContext();
-            });
-            rt.register();
-        }
-    }
-
-    public static ComponentRegistryFunc registry() {
-        return new MyComponentRegistryFunc();
+    public static FrameRegistration registration() {
+        MyFactory factory = new MyFactory();
+        FrameRegistration fr = new FrameRegistration();
+        fr.setFactory(factory);
+        fr.setName(ExampleFrame.class.getName());
+        fr.setType(ExampleFrame.class);
+        fr.setSingleton(false);
+        return fr;
     }
 
 }
