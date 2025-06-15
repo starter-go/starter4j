@@ -11,8 +11,8 @@ import com.bitwormhole.starter4j.res.m.StarterSrcMain;
 final class ThisModule implements ComponentRegistryFunc {
 
 	private static final String theModuleName = Starter.class.getName();
-	private static final String theModuleVersion = "0.0.2";
-	private static final int theModuleRevision = 6;
+	private static final String theModuleVersion = "0.0.4";
+	private static final int theModuleRevision = 8;
 
 	private ThisModule() {
 	}

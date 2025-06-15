@@ -6,14 +6,14 @@
 
 	<groupId>com.bitwormhole.starter4j</groupId>
 	<artifactId>starter4j-parent</artifactId>
-	<version>0.0.4-r8-snapshot</version>
+	<version>0.0.4</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<starter4j.framework.groupid>com.bitwormhole.starter4j</starter4j.framework.groupid>
-		<starter4j.framework.version>0.0.4-r8-snapshot</starter4j.framework.version>
+		<starter4j.framework.version>0.0.4</starter4j.framework.version>
 		<starter4j.libs.slf4j.version>1.7.33</starter4j.libs.slf4j.version>
 		<starter4j.libs.junit.version>4.12</starter4j.libs.junit.version>
 	</properties>

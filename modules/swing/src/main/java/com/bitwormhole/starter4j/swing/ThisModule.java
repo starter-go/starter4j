@@ -9,8 +9,8 @@ import com.bitwormhole.starter4j.swing.config.ConfigAll;
 final class ThisModule {
 
     private static final String theModuleName = SwingApplicationStarter.class.getName();
-    private static final String theModuleVersion = "0.0.0";
-    private static final int theModuleRevision = 0;
+    private static final String theModuleVersion = "0.0.4";
+    private static final int theModuleRevision = 8;
 
     private ThisModule() {
     }
