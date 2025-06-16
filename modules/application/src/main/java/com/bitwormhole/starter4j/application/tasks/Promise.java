@@ -18,7 +18,7 @@ public final class Promise<T> {
     // public
 
     public interface Task<T> {
-        Result<T> run();
+        Result<T> run() throws Exception;
     }
 
     public static <T> PromiseBuilder<T> init(PromiseContext ctx, Class<T> type) {

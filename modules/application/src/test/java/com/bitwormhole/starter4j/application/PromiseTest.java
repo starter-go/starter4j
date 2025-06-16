@@ -18,7 +18,10 @@ public class PromiseTest {
             Result<Long> res = new Result<>();
             res.setValue(666L);
             logger.info("Promise.run ... ");
+
+            // throw new IOException("try throw");
             return res;
+
         }).Then((res) -> {
             Long n = res.getValue();
             logger.info("Promise.Then: {}", n);
