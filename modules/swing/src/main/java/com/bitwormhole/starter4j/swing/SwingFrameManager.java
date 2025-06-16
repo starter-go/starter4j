@@ -2,6 +2,7 @@ package com.bitwormhole.starter4j.swing;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bitwormhole.starter4j.application.ApplicationContext;
-import com.bitwormhole.starter4j.application.ComponentRegistry;
 import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
 import com.bitwormhole.starter4j.application.ComponentAutoRegistrar;
 import com.bitwormhole.starter4j.application.ComponentTemplate;
@@ -32,11 +32,21 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
     private ApplicationContext context;
     private Class<?> mainFrameClass;
     private MyCache cache;
+    private int mFrameIDCounter = 1;
 
     public SwingFrameManager() {
     }
 
     private void innerShowFR(FrameRegistration fr, Goal goal) {
+
+        if (goal == null) {
+            goal = new Goal();
+        }
+
+        if (goal.getContext() == null) {
+            goal.setContext(this.context);
+        }
+
         JFrame frame = fr.getHolder().getFrame(goal);
         frame.setVisible(true);
     }
@@ -71,13 +81,22 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
 
         fr = this.loadFrameComplete(fr);
 
+        String id = this.nextFrameID();
         String name = fr.getName();
         Class<?> clazz = fr.getType();
 
+        fr.setId(id);
+
+        c.table.put(MyCache.keyOfID(id), fr);
         c.table.put(MyCache.keyOf(name), fr);
         c.table.put(MyCache.keyOf(clazz), fr);
 
-        logger.info("load [frame name:" + name + " class:" + clazz + "]");
+        logger.info("load [frame id:" + id + " name:" + name + " class:" + clazz + "]");
+    }
+
+    private synchronized String nextFrameID() {
+        int id = mFrameIDCounter++;
+        return String.valueOf(id);
     }
 
     private FrameRegistration loadFrameComplete(FrameRegistration fr) {
@@ -104,22 +123,6 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
             fr.setName(name);
         }
         return fr;
-    }
-
-    @Override
-    public void show(Class<?> frameClass) {
-        Goal goal = new Goal();
-        FrameRegistration fr = this.find(frameClass);
-        goal.setType(frameClass);
-        this.innerShowFR(fr, goal);
-    }
-
-    @Override
-    public void show(String frameName) {
-        Goal goal = new Goal();
-        FrameRegistration fr = this.find(frameName);
-        goal.setName(frameName);
-        this.innerShowFR(fr, goal);
     }
 
     @Override
@@ -161,7 +164,9 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
     }
 
     private void runLoop2() {
-        this.show(this.mainFrameClass);
+        Goal goal = new Goal();
+        goal.setFrameClass(this.mainFrameClass);
+        this.show(goal);
     }
 
     private static final class MyCache {
@@ -177,8 +182,24 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
             return "frame:name:" + name;
         }
 
+        static String keyOfID(String id) {
+            return "frame:id:" + id;
+        }
+
         static String keyOf(Class<?> clazz) {
             return "frame:class:" + clazz.getName();
+        }
+
+        List<FrameRegistration> all() {
+            Collection<FrameRegistration> src = this.table.values();
+            Map<String, FrameRegistration> tmp = new HashMap<>();
+            List<FrameRegistration> dst = new ArrayList<>();
+            src.forEach((item) -> {
+                String id = item.getId();
+                tmp.put(id, item);
+            });
+            dst.addAll(tmp.values());
+            return dst;
         }
 
         FrameRegistration find(String name) {
@@ -241,8 +262,8 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
     public void show(Goal goal) {
 
         FrameRegistration fr;
-        Class<?> type = goal.getType();
-        String name = goal.getName();
+        Class<?> type = goal.getFrameClass();
+        String name = goal.getFrameName();
 
         if (type != null) {
             fr = this.find(type);
@@ -257,6 +278,33 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
         }
 
         throw new RuntimeException("bad goal: " + goal);
+    }
+
+    @Override
+    public List<FrameRegistration> find(Goal goal) {
+        MyCache cache = this.getCache();
+        List<FrameRegistration> src = cache.all();
+        List<FrameRegistration> dst = new ArrayList<>();
+        for (FrameRegistration fr : src) {
+            if (acceptFrameRegistration(fr, goal)) {
+                dst.add(fr);
+            }
+        }
+        return dst;
+    }
+
+    private static boolean acceptFrameRegistration(FrameRegistration fr, Goal goal) {
+        if (fr == null || goal == null) {
+            return false;
+        }
+        FrameRegistrationFilter f1 = goal.getFilter(); // 高优先级
+        FrameRegistrationFilter f2 = fr.getFilter();// 低优先级
+        if (f1 != null) {
+            return f1.accept(fr, goal);
+        } else if (f2 != null) {
+            return f2.accept(fr, goal);
+        }
+        return false;
     }
 
 }

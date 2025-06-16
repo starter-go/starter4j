@@ -4,9 +4,11 @@ public class FrameRegistration {
 
     private FrameHolder holder;
     private FrameFactory factory;
-    private String name;
+    private String id; // 每个必需有一个唯一的ID
+    private String name; // name 是可选的 , 即匿名
     private boolean singleton;
     private Class<?> type;
+    private FrameRegistrationFilter filter;
 
     public FrameRegistration() {
     }
@@ -60,6 +62,22 @@ public class FrameRegistration {
 
     public void setType(Class<?> type) {
         this.type = type;
+    }
+
+    public FrameRegistrationFilter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(FrameRegistrationFilter filter) {
+        this.filter = filter;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
