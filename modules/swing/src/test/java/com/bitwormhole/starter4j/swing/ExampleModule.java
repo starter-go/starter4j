@@ -8,8 +8,8 @@ import com.bitwormhole.starter4j.swing.config.ExampleConfig;
 public class ExampleModule {
 
     private static final String theModuleName = ExampleModule.class.getName();
-    private static final String theModuleVersion = "0.0.4";
-    private static final int theModuleRevision = 8;
+    private static final String theModuleVersion = "0.0.5";
+    private static final int theModuleRevision = 9;
 
     private ExampleModule() {
     }
