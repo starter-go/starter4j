@@ -1,12 +1,12 @@
 package com.bitwormhole.starter4j.swing;
 
+import java.util.List;
+
 public interface FrameManager {
 
-    void show(Class<?> frameClass);
-
-    void show(String frameName);
-
     void show(Goal goal);
+
+    List<FrameRegistration> find(Goal goal);
 
     FrameRegistration find(Class<?> frameClass);
 
