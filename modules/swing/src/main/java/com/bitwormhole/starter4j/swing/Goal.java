@@ -3,32 +3,24 @@ package com.bitwormhole.starter4j.swing;
 import java.net.URI;
 import java.util.Map;
 
+import java.awt.Component;
+
+import com.bitwormhole.starter4j.application.ApplicationContext;
+
 public class Goal {
 
     private String action;
-    private String name;
-    private Class<?> type;
-    private Map<String, String> params;
     private Map<String, Object> attributes;
+    private String contentType;
+    private ApplicationContext context;
+    private Class<?> frameClass;
+    private String frameName;
     private URI location;
+    private Map<String, String> params;
+    private Component parent;
+    private FrameRegistrationFilter filter;
 
     public Goal() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Class<?> getType() {
-        return type;
-    }
-
-    public void setType(Class<?> type) {
-        this.type = type;
     }
 
     public String getAction() {
@@ -61,6 +53,54 @@ public class Goal {
 
     public void setLocation(URI location) {
         this.location = location;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public ApplicationContext getContext() {
+        return context;
+    }
+
+    public void setContext(ApplicationContext context) {
+        this.context = context;
+    }
+
+    public Class<?> getFrameClass() {
+        return frameClass;
+    }
+
+    public void setFrameClass(Class<?> frameClass) {
+        this.frameClass = frameClass;
+    }
+
+    public String getFrameName() {
+        return frameName;
+    }
+
+    public void setFrameName(String frameName) {
+        this.frameName = frameName;
+    }
+
+    public Component getParent() {
+        return parent;
+    }
+
+    public void setParent(Component parent) {
+        this.parent = parent;
+    }
+
+    public FrameRegistrationFilter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(FrameRegistrationFilter filter) {
+        this.filter = filter;
     }
 
 }
