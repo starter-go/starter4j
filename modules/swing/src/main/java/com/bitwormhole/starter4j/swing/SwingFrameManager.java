@@ -231,21 +231,13 @@ public class SwingFrameManager implements FrameManager, LifeCycle {
             final ComponentTemplate ct = new ComponentTemplate(cr);
             final RegistrationT<SwingFrameManager> rt = ct.component(SwingFrameManager.class);
             rt.setId(SwingFrameManager.class)
+                    .addAlias(FrameManager.class)
+                    .addClass(FrameManager.class)
                     .onNew(() -> {
                         return new SwingFrameManager();
                     }).onInject((ie, o) -> {
-                        // final ComponentSelector cs = ComponentSelector.getInstance();
-
-                        // o.enabled = ie.getBoolean(cs.PROPERTY("debug.enabled"));
-                        // o.en_log__args = ie.getBoolean(cs.PROPERTY("debug.log-arguments"));
-                        // o.en_log___env = ie.getBoolean(cs.PROPERTY("debug.log-environment"));
-                        // o.en_log_props = ie.getBoolean(cs.PROPERTY("debug.log-properties"));
-
-                        // ie.get
-
                         ApplicationContext ctx = ie.getContext();
                         Class<?> mfc = (Class<?>) ctx.getAttributes().getAttr(SwingConst.MAIN_FRAME_CLASS, true);
-
                         o.context = ctx;
                         o.mainFrameClass = mfc;
                     }).register();
