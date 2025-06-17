@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.bitwormhole.starter4j</groupId>
         <artifactId>starter4j-parent</artifactId>
-        <version>0.0.6-r11-snapshot</version>
+        <version>0.0.6</version>
         <relativePath>./modules/parent</relativePath>
     </parent>
 
