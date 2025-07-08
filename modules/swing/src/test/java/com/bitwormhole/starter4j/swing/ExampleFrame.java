@@ -1,5 +1,6 @@
 package com.bitwormhole.starter4j.swing;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -9,6 +10,8 @@ import javax.swing.JFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bitwormhole.starter4j.application.ApplicationContext;
+import com.bitwormhole.starter4j.application.components.ComponentSelector;
 import com.bitwormhole.starter4j.application.tasks.Promise;
 import com.bitwormhole.starter4j.application.tasks.PromiseContext;
 import com.bitwormhole.starter4j.application.tasks.Result;
@@ -20,28 +23,54 @@ public final class ExampleFrame extends JFrame {
     private ExampleFrame() {
     }
 
-    public static ExampleFrame create() {
+    public static ExampleFrame create(Goal goal) {
         ExampleFrame inst = new ExampleFrame();
         inst.setSize(640, 480);
         inst.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         inst.setTitle("" + inst.getClass().getName());
-        inst.initLayout();
+        inst.initLayout(goal.getContext());
         return inst;
     }
 
-    private void initLayout() {
+    private void initLayout(ApplicationContext ac) {
+
+        GridLayout layout = new GridLayout(5, 1);
+        this.setLayout(layout);
+
+        this.setupButton1();
+        this.setupButton2(ac);
+    }
+
+    private void setupButton1() {
 
         Action action = new MyAction();
         JButton btn = new JButton("run task");
         btn.addActionListener((action_event) -> {
             // System.out.println("" + action_event);
-            onClickButton();
+            onClickButton1();
         });
         btn.setAction(action);
         this.add(btn);
     }
 
-    private void onClickButton() {
+    private void setupButton2(ApplicationContext ac) {
+
+        ComponentSelector cs = ComponentSelector.getInstance();
+        String sel = cs.ID(FrameManager.class);
+
+        final FrameManager fm = ac.selectComponent(sel, FrameManager.class);
+        final Goal goal = new Goal();
+        goal.setContext(ac);
+        goal.setFrameClass(ExampleCanvasFrame.class);
+
+        JButton btn = new JButton("show canvas frame");
+        btn.addActionListener((ae) -> {
+            fm.show(goal);
+        });
+        this.add(btn);
+    }
+
+    private void onClickButton1() {
 
         PromiseContext ctx = SwingPromiseContext.getInstance();
 
@@ -73,22 +102,23 @@ public final class ExampleFrame extends JFrame {
         }
     }
 
-    private final static class MyFactory implements FrameFactory {
-        @Override
-        public JFrame createFrame(Goal goal) {
-            JFrame f = new ExampleFrame();
-            f.setSize(640, 480);
-            f.setVisible(true);
-            f.setTitle(ExampleFrame.class.getName());
-            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            return f;
-        }
-    }
+    // private final static class MyFactory implements FrameFactory {
+    // @Override
+    // public JFrame createFrame(Goal goal) {
+
+    // // JFrame f = new ExampleFrame();
+    // // f.setSize(640, 480);
+    // // f.setVisible(true);
+    // // f.setTitle(ExampleFrame.class.getName());
+    // // f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // return create();
+    // }
+    // }
 
     public static FrameRegistration registration() {
-        MyFactory factory = new MyFactory();
+        // MyFactory factory = new MyFactory();
         FrameRegistration fr = new FrameRegistration();
-        fr.setFactory(factory);
+        fr.setFactory((goal) -> create(goal));
         fr.setName(ExampleFrame.class.getName());
         fr.setType(ExampleFrame.class);
         fr.setSingleton(false);
