@@ -23,6 +23,28 @@ public abstract class Box extends BoxAbs {
         this.weight = 1;
     }
 
+    public Point convertCanvasToLocal(Point at_canvas) {
+        final Point pos = this.getPositionAtCanvas();
+        if (pos == null || at_canvas == null) {
+            return new Point();
+        }
+        int x, y;
+        x = at_canvas.x - pos.x;
+        y = at_canvas.y - pos.y;
+        return new Point(x, y);
+    }
+
+    public Point convertLocalToCanvas(Point at_local) {
+        final Point pos = this.getPositionAtCanvas();
+        if (pos == null || at_local == null) {
+            return new Point();
+        }
+        int x, y;
+        x = at_local.x + pos.x;
+        y = at_local.y + pos.y;
+        return new Point(x, y);
+    }
+
     public BoxStyle getStyle() {
         return style;
     }

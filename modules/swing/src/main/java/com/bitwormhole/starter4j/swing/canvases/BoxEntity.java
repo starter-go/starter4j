@@ -191,4 +191,39 @@ public class BoxEntity extends Box {
         return true;
     }
 
+    @Override
+    public void handleMouseEvent(MouseEventContext ctx) {
+        if (isHit(ctx)) {
+            this.onMouseEvent(ctx);
+        }
+    }
+
+    @Override
+    protected void onMouseEvent(MouseEventContext mec) {
+    }
+
+    private boolean isHit(MouseEventContext mectx) {
+        Point pt = mectx.getLocationAtCanvas();
+        return this.isHit(pt);
+    }
+
+    private boolean isHit(Point pt_at_canvas) {
+
+        final Point ptr = pt_at_canvas;
+        final Point position = this.getPositionAtCanvas();
+        final Dimension size = this.getSize();
+
+        if (ptr == null || position == null || size == null) {
+            return false;
+        }
+
+        final int left, right, top, bottom;
+        top = position.y;
+        left = position.x;
+        right = position.x + size.width;
+        bottom = position.y + size.height;
+
+        return ((left <= ptr.x) && (ptr.x <= right) && (top <= ptr.y) && (ptr.y <= bottom));
+    }
+
 }

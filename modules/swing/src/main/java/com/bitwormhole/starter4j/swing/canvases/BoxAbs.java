@@ -3,7 +3,7 @@ package com.bitwormhole.starter4j.swing.canvases;
 /***
  * BoxAbs 是 Box 类的抽象父类，它包含了一些 Box 需要实现的抽象方法
  */
-public abstract class BoxAbs implements IRenderable, ILayoutable {
+public abstract class BoxAbs implements IRenderable, ILayoutable, IMouseEventListener {
 
     // paint
 
@@ -20,5 +20,8 @@ public abstract class BoxAbs implements IRenderable, ILayoutable {
     protected abstract void onBuildLayoutSelf(LayoutContext lc);
 
     protected abstract void onBuildLayoutPost(LayoutContext lc);
+
+    // mouse-event
+    protected abstract void onMouseEvent(MouseEventContext mec);
 
 }

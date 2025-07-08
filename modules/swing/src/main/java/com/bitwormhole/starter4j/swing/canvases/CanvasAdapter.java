@@ -7,6 +7,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -68,7 +73,83 @@ public class CanvasAdapter extends JPanel {
         }
     }
 
+    private class MySwingMouseListener implements MouseListener, MouseMotionListener, MouseWheelListener {
+
+        void dispatchEvent(MouseEventContext ctx) {
+            CanvasAdapter adapter = CanvasAdapter.this;
+            adapter.canvas.handleMouseEvent(ctx);
+        }
+
+        MouseEventContext prepareEvent(MouseEventContext.MouseEvent me) {
+            final CanvasAdapter adapter = CanvasAdapter.this;
+            final MouseEventContext ctx = new MouseEventContext();
+            ctx.setCanvas(adapter.canvas);
+            ctx.setEvent(me);
+            return ctx;
+        }
+
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.MOVED);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.CLICKED);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.PRESSED);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.RELEASED);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.ENTER);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.LEAVE);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
+        }
+    }
+
     private void onCreate() {
+
+        final MySwingMouseListener sml = new MySwingMouseListener();
+        this.addMouseListener(sml);
+        this.addMouseMotionListener(sml);
+        this.addMouseWheelListener(sml);
+
         this.addComponentListener(new MyCompListener());
     }
 

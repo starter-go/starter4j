@@ -45,27 +45,27 @@ public class BoxContainerEntity extends BoxContainer {
         l.onBuildLayoutContainer(lc, this);
     }
 
-    // @Override
-    // protected void onBuildLayoutChildren(final LayoutContext lc1) {
-    // // super.onBuildLayoutChildren(lc);
+    @Override
+    protected void onMouseEvent(MouseEventContext mec) {
+        super.onMouseEvent(mec);
 
-    // final List<Box> children = this.getChildren();
-    // final BoxContainer parent = this;
+        final List<Box> children = this.getChildren();
+        final int depth1 = mec.getDepth();
+        final int depth2 = depth1 + 1;
+        final int limit = mec.getDepthLimit();
 
-    // if (children == null) {
-    // return;
-    // }
+        if (depth2 > limit) {
+            throw new RuntimeException("too deep");
+        }
 
-    // children.forEach((child) -> {
-    // LayoutContext lc2 = new LayoutContext(lc1);
-    // lc2.setParent(parent);
-    // lc2.setChild(child);
-    // lc2.setDepth(lc1.getDepth() + 1);
-
-    // child.setParent(parent);
-    // child.rebuildLayout(lc2);
-    // });
-    // }
+        children.forEach((child) -> {
+            mec.setDepth(depth2);
+            if (mec.isExited()) {
+                return;
+            }
+            child.handleMouseEvent(mec);
+        });
+    }
 
     @Override
     public final void render(RenderContext rc) {
