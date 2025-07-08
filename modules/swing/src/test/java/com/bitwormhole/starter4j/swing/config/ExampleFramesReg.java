@@ -5,6 +5,7 @@ import java.util.List;
 import com.bitwormhole.starter4j.application.ComponentRegistryFunc;
 import com.bitwormhole.starter4j.application.ComponentTemplate;
 import com.bitwormhole.starter4j.application.ComponentTemplate.RegistrationT;
+import com.bitwormhole.starter4j.swing.ExampleCanvasFrame;
 import com.bitwormhole.starter4j.swing.ExampleFrame;
 import com.bitwormhole.starter4j.swing.FrameRegistration;
 import com.bitwormhole.starter4j.swing.FrameRegistry;
@@ -33,7 +34,10 @@ public class ExampleFramesReg implements FrameRegistry {
 
     @Override
     public List<FrameRegistration> listRegistrations(List<FrameRegistration> dst) {
+
         dst.add(ExampleFrame.registration());
+        dst.add(ExampleCanvasFrame.registration());
+
         return dst;
     }
 
