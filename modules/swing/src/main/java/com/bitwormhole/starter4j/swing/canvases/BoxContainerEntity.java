@@ -72,9 +72,12 @@ public class BoxContainerEntity extends BoxContainer {
 
         this.checkDepth(rc);
 
-        this.onPaintBackground(rc);
-        this.onPaintChildren(rc);
-        this.onPaintForeground(rc);
+        final VisibilityEnum v = this.getVisibility();
+        if (VisibilityEnum.isVisible(v)) {
+            this.onPaintBackground(rc);
+            this.onPaintChildren(rc);
+            this.onPaintForeground(rc);
+        }
     }
 
     @Override

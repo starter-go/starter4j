@@ -28,6 +28,8 @@ public class BoxStyle {
 
     private AlignEnum textAlign; // 'text-align'
 
+    private VisibilityEnum visibility;
+
     public BoxStyle() {
         this.innerInitAsDefault();
     }
@@ -181,6 +183,14 @@ public class BoxStyle {
 
     public void setTextAlign(AlignEnum textAlign) {
         this.textAlign = textAlign;
+    }
+
+    public VisibilityEnum getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(VisibilityEnum visibility) {
+        this.visibility = visibility;
     }
 
 }

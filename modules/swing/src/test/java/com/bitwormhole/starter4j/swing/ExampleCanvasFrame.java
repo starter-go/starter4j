@@ -11,6 +11,7 @@ import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Canvas;
 import com.bitwormhole.starter4j.swing.canvases.CanvasAdapter;
 import com.bitwormhole.starter4j.swing.canvases.LineStyle;
+import com.bitwormhole.starter4j.swing.canvases.VisibilityEnum;
 import com.bitwormhole.starter4j.swing.layouts.LinearLayout;
 import com.bitwormhole.starter4j.swing.boxes.CButton;
 import com.bitwormhole.starter4j.swing.boxes.CGroup;
@@ -47,6 +48,8 @@ public class ExampleCanvasFrame extends JFrame {
         BoxStyle style = pbox.getStyle();
         style = makeDemoStyle(style);
         pbox.setStyle(style);
+
+        // btn2.setVisibility(VisibilityEnum.GONE);
 
         vg.setLayout(new LinearLayout(LinearLayout.VERTICAL));
         hg.setLayout(new LinearLayout(LinearLayout.HORIZONTAL));
