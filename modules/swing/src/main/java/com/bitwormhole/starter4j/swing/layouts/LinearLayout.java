@@ -182,10 +182,10 @@ public class LinearLayout implements ILayout {
             return size;
         }
 
-        size = parent.getWantSize();
-        if (size != null) {
-            return size;
-        }
+        // size = parent.getWantSize();
+        // if (size != null) {
+        // return size;
+        // }
 
         return new Dimension();
     }

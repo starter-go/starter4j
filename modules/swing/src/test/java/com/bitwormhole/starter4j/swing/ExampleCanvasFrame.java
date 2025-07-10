@@ -2,21 +2,31 @@ package com.bitwormhole.starter4j.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 
 import javax.swing.JFrame;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.bitwormhole.starter4j.swing.canvases.Box;
 import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Canvas;
 import com.bitwormhole.starter4j.swing.canvases.CanvasAdapter;
 import com.bitwormhole.starter4j.swing.canvases.LineStyle;
+import com.bitwormhole.starter4j.swing.canvases.RenderContext;
 import com.bitwormhole.starter4j.swing.canvases.VisibilityEnum;
 import com.bitwormhole.starter4j.swing.layouts.LinearLayout;
+import com.bitwormhole.starter4j.swing.layouts.LinearLayout.Direction;
 import com.bitwormhole.starter4j.swing.boxes.CButton;
 import com.bitwormhole.starter4j.swing.boxes.CGroup;
+import com.bitwormhole.starter4j.swing.boxes.CLabel;
 
 public class ExampleCanvasFrame extends JFrame {
+
+    static final Logger logger = LoggerFactory.getLogger(ExampleCanvasFrame.class);
 
     private CanvasAdapter adapter;
 
@@ -38,11 +48,15 @@ public class ExampleCanvasFrame extends JFrame {
         CButton btn2 = new CButton("button-2");
         CButton btn3 = new CButton("button-3");
         CButton btn4 = new CButton("哈哈哈-looooong");
+        Box boxItemsH = this.makeItemsBox(61, LinearLayout.HORIZONTAL);
+        Box boxItemsV = this.makeItemsBox(61, LinearLayout.VERTICAL);
 
-        btn1.setWeight(10);
-        btn2.setWeight(10);
-        btn3.setWeight(20);
-        btn4.setWeight(20);
+        btn1.setWeight(2);
+        btn2.setWeight(2);
+        btn3.setWeight(2);
+        btn4.setWeight(2);
+        boxItemsH.setWeight(90);
+        boxItemsV.setWeight(2);
 
         Box pbox = btn3;
         BoxStyle style = pbox.getStyle();
@@ -58,6 +72,8 @@ public class ExampleCanvasFrame extends JFrame {
         hg.add(btn2);
         hg.add(btn3);
         hg.add(btn4);
+        hg.add(boxItemsH);
+        hg.add(boxItemsV);
 
         vg.add(hg);
         canvas.add(vg);
@@ -75,23 +91,61 @@ public class ExampleCanvasFrame extends JFrame {
         style.setBackgroundColor(Color.green);
         style.setForegroundColor(Color.white);
 
+        style.setBorderColor(Color.yellow);
+        style.setBorderStyle(LineStyle.SOLID);
+        style.setBorderWidth(30);
+
         style.setBorderTopColor(Color.red);
         style.setBorderTopStyle(LineStyle.SOLID);
         style.setBorderTopWidth(10);
 
-        style.setBorderLeftColor(Color.red);
-        style.setBorderLeftStyle(LineStyle.SOLID);
-        style.setBorderLeftWidth(10);
+        // style.setBorderLeftColor(Color.red);
+        // style.setBorderLeftStyle(LineStyle.SOLID);
+        // style.setBorderLeftWidth(10);
 
-        style.setBorderRightColor(Color.blue);
-        style.setBorderRightStyle(LineStyle.SOLID);
-        style.setBorderRightWidth(10);
+        // style.setBorderRightColor(Color.blue);
+        // style.setBorderRightStyle(LineStyle.SOLID);
+        // style.setBorderRightWidth(10);
 
-        style.setBorderBottomColor(Color.blue);
-        style.setBorderBottomStyle(LineStyle.SOLID);
-        style.setBorderBottomWidth(10);
+        // style.setBorderBottomColor(Color.blue);
+        // style.setBorderBottomStyle(LineStyle.SOLID);
+        // style.setBorderBottomWidth(10);
 
         return style;
+    }
+
+    private CGroup makeItemsBox(int count, LinearLayout.Direction dir) {
+
+        BoxStyle g_style = new BoxStyle();
+        BoxStyle i_style = new BoxStyle();
+
+        i_style.setBorderColor(Color.gray);
+        i_style.setBorderStyle(LineStyle.SOLID);
+        i_style.setBorderWidth(1);
+
+        i_style.setBorderTopColor(Color.blue);
+        i_style.setBorderTopWidth(10);
+        i_style.setBorderBottomColor(Color.red);
+        i_style.setBorderBottomWidth(10);
+
+        CGroup group = new CGroup();
+        CGroup item = null;
+        CLabel label = null;
+
+        for (int i = 0; i < count; i++) {
+            item = new MyItemView();
+            label = new CLabel();
+
+            item.setZ(30 - i);
+            item.setStyle(i_style);
+            label.setText("" + i);
+
+            item.add(label);
+            group.add(item);
+        }
+        group.setStyle(g_style);
+        group.setLayout(new LinearLayout(dir));
+        return group;
     }
 
     public static ExampleCanvasFrame create(Goal goal) {
@@ -101,6 +155,35 @@ public class ExampleCanvasFrame extends JFrame {
         inst.setTitle("" + inst.getClass().getName());
         inst.onCreate();
         return inst;
+    }
+
+    static class MyItemView extends CGroup {
+
+        @Override
+        protected void onPaintForeground(RenderContext rc) {
+            super.onPaintForeground(rc);
+
+            int z, x, y, w, h;
+            Dimension s = this.getSize();
+            Point p = this.getPosition();
+            z = this.getZ();
+            x = p.x;
+            y = p.y;
+            w = s.width;
+            h = s.height;
+
+            if (z == 0) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("MyItemView.[onPaintForeground");
+                sb.append(" h:").append(h);
+                sb.append(" w:").append(w);
+                sb.append(" x:").append(x);
+                sb.append(" y:").append(y);
+                sb.append(" z:").append(z);
+                sb.append(']');
+                logger.info(sb.toString());
+            }
+        }
     }
 
     // private final static class MyFactory implements FrameFactory {
