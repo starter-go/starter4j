@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.plaf.FontUIResource;
-
 import com.bitwormhole.starter4j.swing.layouts.SimpleLayout;
 
 public final class Getters {
@@ -67,6 +65,36 @@ public final class Getters {
             o = new Dimension();
         }
         return o;
+    }
+
+    public static Color getFirstAvailableValue(Color v1, Color v2) {
+        if (v1 != null) {
+            return v1;
+        }
+        if (v2 != null) {
+            return v2;
+        }
+        return Color.black;
+    }
+
+    public static LineStyle getFirstAvailableValue(LineStyle v1, LineStyle v2) {
+        if (v1 != null) {
+            return v1;
+        }
+        if (v2 != null) {
+            return v2;
+        }
+        return LineStyle.NONE;
+    }
+
+    public static int getFirstAvailableWidth(int v1, int v2) {
+        if (v1 >= 0) {
+            return v1;
+        }
+        if (v2 >= 0) {
+            return v2;
+        }
+        return 0;
     }
 
 }

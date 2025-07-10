@@ -18,8 +18,11 @@ public class BoxEntity extends Box {
 
     @Override
     public void render(RenderContext rc) {
-        this.onPaintBackground(rc);
-        this.onPaintForeground(rc);
+        final VisibilityEnum v = this.getVisibility();
+        if (VisibilityEnum.isVisible(v)) {
+            this.onPaintBackground(rc);
+            this.onPaintForeground(rc);
+        }
     }
 
     @Override
@@ -193,9 +196,17 @@ public class BoxEntity extends Box {
 
     @Override
     public void handleMouseEvent(MouseEventContext ctx) {
-        if (isHit(ctx)) {
-            this.onMouseEvent(ctx);
+
+        VisibilityEnum visi = this.getVisibility();
+        if (!VisibilityEnum.isVisible(visi)) {
+            return;
         }
+
+        if (!isHit(ctx)) {
+            return;
+        }
+
+        this.onMouseEvent(ctx);
     }
 
     @Override

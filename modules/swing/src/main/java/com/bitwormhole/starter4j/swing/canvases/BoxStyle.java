@@ -5,28 +5,54 @@ import java.awt.Font;
 
 public class BoxStyle {
 
+    // color
+
     private Color backgroundColor; // 'background-color'
     private Color foregroundColor; // 'foreground-color'
 
-    private Font font;
+    // border
 
-    private Color borderTopColor; // ....... 'border-top-color'
-    private LineStyle borderTopStyle; // ... 'border-top-style'
-    private int borderTopWidth; // ......... 'border-top-width'
+    private Color borderTopColor; // .......... 'border-top-color'
+    private LineStyle borderTopStyle; // ...... 'border-top-style'
+    private int borderTopWidth; // ............ 'border-top-width' , <0 表示没有有效值
 
-    private Color borderLeftColor; // ....... 'border-left-color'
-    private LineStyle borderLeftStyle; // ... 'border-left-style'
-    private int borderLeftWidth; // ......... 'border-left-width'
+    private Color borderLeftColor; // ......... 'border-left-color'
+    private LineStyle borderLeftStyle; // ..... 'border-left-style'
+    private int borderLeftWidth; // ........... 'border-left-width' , <0 表示没有有效值
 
-    private Color borderRightColor; // ....... 'border-right-color'
-    private LineStyle borderRightStyle; // ... 'border-right-style'
-    private int borderRightWidth; // ......... 'border-right-width'
+    private Color borderRightColor; // ........ 'border-right-color'
+    private LineStyle borderRightStyle; // .... 'border-right-style'
+    private int borderRightWidth; // .......... 'border-right-width' , <0 表示没有有效值
 
     private Color borderBottomColor; // ....... 'border-bottom-color'
     private LineStyle borderBottomStyle; // ... 'border-bottom-style'
-    private int borderBottomWidth; // ......... 'border-bottom-width'
+    private int borderBottomWidth; // ......... 'border-bottom-width' , <0 表示没有有效值
 
-    private AlignEnum textAlign; // 'text-align'
+    private Color borderColor; // ............. 'border-color'
+    private LineStyle borderStyle; // ......... 'border-style'
+    private int borderWidth; // ............... 'border-width' , <0 表示没有有效值
+
+    // margin
+
+    private int margin; // .............. 'margin' , <0 表示没有有效值
+    private int marginTop; // ........... 'margin-top'
+    private int marginLeft; // .......... 'margin-left'
+    private int marginRight; // ......... 'margin-right'
+    private int marginBottom; // ........ 'margin-bottom'
+
+    // padding
+
+    private int padding; // .............. 'padding' , <0 表示没有有效值
+    private int paddingTop; // ........... 'padding-top'
+    private int paddingLeft; // .......... 'padding-left'
+    private int paddingRight; // ......... 'padding-right'
+    private int paddingBottom; // ........ 'padding-bottom'
+
+    // other
+
+    private Font font; // ..................... 'font'
+    private AlignEnum textAlign; // ........... 'text-align'
+    private VisibilityEnum visibility; // ..... 'visibility'
 
     public BoxStyle() {
         this.innerInitAsDefault();
@@ -37,21 +63,27 @@ public class BoxStyle {
         this.backgroundColor = Color.WHITE;
         this.foregroundColor = Color.BLACK;
 
-        this.borderTopColor = Color.GRAY;
-        this.borderTopStyle = LineStyle.SOLID;
-        this.borderTopWidth = 1;
+        // this.borderTopColor = Color.GRAY;
+        // this.borderTopStyle = LineStyle.SOLID;
+        // this.borderTopWidth = 1;
 
-        this.borderLeftColor = Color.GRAY;
-        this.borderLeftStyle = LineStyle.SOLID;
-        this.borderLeftWidth = 1;
+        // this.borderLeftColor = Color.GRAY;
+        // this.borderLeftStyle = LineStyle.SOLID;
+        // this.borderLeftWidth = 1;
 
-        this.borderRightColor = Color.GRAY;
-        this.borderRightStyle = LineStyle.SOLID;
-        this.borderRightWidth = 1;
+        // this.borderRightColor = Color.GRAY;
+        // this.borderRightStyle = LineStyle.SOLID;
+        // this.borderRightWidth = 1;
 
-        this.borderBottomColor = Color.GRAY;
-        this.borderBottomStyle = LineStyle.SOLID;
-        this.borderBottomWidth = 1;
+        // this.borderBottomColor = Color.GRAY;
+        // this.borderBottomStyle = LineStyle.SOLID;
+        // this.borderBottomWidth = 1;
+
+        this.borderWidth = -1;
+        this.borderTopWidth = -1;
+        this.borderLeftWidth = -1;
+        this.borderRightWidth = -1;
+        this.borderBottomWidth = -1;
 
     }
 
@@ -72,7 +104,7 @@ public class BoxStyle {
     }
 
     public Color getBorderTopColor() {
-        return borderTopColor;
+        return Getters.getFirstAvailableValue(this.borderTopColor, this.borderColor);
     }
 
     public void setBorderTopColor(Color borderTopColor) {
@@ -80,7 +112,7 @@ public class BoxStyle {
     }
 
     public LineStyle getBorderTopStyle() {
-        return borderTopStyle;
+        return Getters.getFirstAvailableValue(this.borderTopStyle, this.borderStyle);
     }
 
     public void setBorderTopStyle(LineStyle borderTopStyle) {
@@ -88,7 +120,7 @@ public class BoxStyle {
     }
 
     public int getBorderTopWidth() {
-        return borderTopWidth;
+        return Getters.getFirstAvailableWidth(this.borderTopWidth, this.borderWidth);
     }
 
     public void setBorderTopWidth(int borderTopWidth) {
@@ -96,7 +128,7 @@ public class BoxStyle {
     }
 
     public Color getBorderLeftColor() {
-        return borderLeftColor;
+        return Getters.getFirstAvailableValue(this.borderLeftColor, this.borderColor);
     }
 
     public void setBorderLeftColor(Color borderLeftColor) {
@@ -104,7 +136,7 @@ public class BoxStyle {
     }
 
     public LineStyle getBorderLeftStyle() {
-        return borderLeftStyle;
+        return Getters.getFirstAvailableValue(this.borderLeftStyle, this.borderStyle);
     }
 
     public void setBorderLeftStyle(LineStyle borderLeftStyle) {
@@ -112,7 +144,7 @@ public class BoxStyle {
     }
 
     public int getBorderLeftWidth() {
-        return borderLeftWidth;
+        return Getters.getFirstAvailableWidth(this.borderLeftWidth, this.borderWidth);
     }
 
     public void setBorderLeftWidth(int borderLeftWidth) {
@@ -120,7 +152,7 @@ public class BoxStyle {
     }
 
     public Color getBorderRightColor() {
-        return borderRightColor;
+        return Getters.getFirstAvailableValue(this.borderRightColor, this.borderColor);
     }
 
     public void setBorderRightColor(Color borderRightColor) {
@@ -128,7 +160,7 @@ public class BoxStyle {
     }
 
     public LineStyle getBorderRightStyle() {
-        return borderRightStyle;
+        return Getters.getFirstAvailableValue(this.borderRightStyle, this.borderStyle);
     }
 
     public void setBorderRightStyle(LineStyle borderRightStyle) {
@@ -136,7 +168,7 @@ public class BoxStyle {
     }
 
     public int getBorderRightWidth() {
-        return borderRightWidth;
+        return Getters.getFirstAvailableWidth(this.borderRightWidth, this.borderWidth);
     }
 
     public void setBorderRightWidth(int borderRightWidth) {
@@ -144,7 +176,7 @@ public class BoxStyle {
     }
 
     public Color getBorderBottomColor() {
-        return borderBottomColor;
+        return Getters.getFirstAvailableValue(this.borderBottomColor, this.borderColor);
     }
 
     public void setBorderBottomColor(Color borderBottomColor) {
@@ -152,7 +184,7 @@ public class BoxStyle {
     }
 
     public LineStyle getBorderBottomStyle() {
-        return borderBottomStyle;
+        return Getters.getFirstAvailableValue(this.borderBottomStyle, this.borderStyle);
     }
 
     public void setBorderBottomStyle(LineStyle borderBottomStyle) {
@@ -160,7 +192,7 @@ public class BoxStyle {
     }
 
     public int getBorderBottomWidth() {
-        return borderBottomWidth;
+        return Getters.getFirstAvailableWidth(this.borderBottomWidth, this.borderWidth);
     }
 
     public void setBorderBottomWidth(int borderBottomWidth) {
@@ -181,6 +213,118 @@ public class BoxStyle {
 
     public void setTextAlign(AlignEnum textAlign) {
         this.textAlign = textAlign;
+    }
+
+    public VisibilityEnum getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(VisibilityEnum visibility) {
+        this.visibility = visibility;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public LineStyle getBorderStyle() {
+        return borderStyle;
+    }
+
+    public void setBorderStyle(LineStyle borderStyle) {
+        this.borderStyle = borderStyle;
+    }
+
+    public int getBorderWidth() {
+        return borderWidth;
+    }
+
+    public void setBorderWidth(int borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+
+    public int getMargin() {
+        return margin;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
+    }
+
+    public int getMarginTop() {
+        return marginTop;
+    }
+
+    public void setMarginTop(int marginTop) {
+        this.marginTop = marginTop;
+    }
+
+    public int getMarginLeft() {
+        return marginLeft;
+    }
+
+    public void setMarginLeft(int marginLeft) {
+        this.marginLeft = marginLeft;
+    }
+
+    public int getMarginRight() {
+        return marginRight;
+    }
+
+    public void setMarginRight(int marginRight) {
+        this.marginRight = marginRight;
+    }
+
+    public int getMarginBottom() {
+        return marginBottom;
+    }
+
+    public void setMarginBottom(int marginBottom) {
+        this.marginBottom = marginBottom;
+    }
+
+    public int getPadding() {
+        return padding;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
+    }
+
+    public int getPaddingTop() {
+        return paddingTop;
+    }
+
+    public void setPaddingTop(int paddingTop) {
+        this.paddingTop = paddingTop;
+    }
+
+    public int getPaddingLeft() {
+        return paddingLeft;
+    }
+
+    public void setPaddingLeft(int paddingLeft) {
+        this.paddingLeft = paddingLeft;
+    }
+
+    public int getPaddingRight() {
+        return paddingRight;
+    }
+
+    public void setPaddingRight(int paddingRight) {
+        this.paddingRight = paddingRight;
+    }
+
+    public int getPaddingBottom() {
+        return paddingBottom;
+    }
+
+    public void setPaddingBottom(int paddingBottom) {
+        this.paddingBottom = paddingBottom;
     }
 
 }

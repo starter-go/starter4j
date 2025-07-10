@@ -10,6 +10,11 @@ public abstract class Box extends BoxAbs {
     private int z; // the z-index
     private int weight;
 
+    /**
+     * style 中的 visibility 具有更高优先级, 如果 style 没有提供, 则使用这里的值
+     */
+    private VisibilityEnum visibility;
+
     private Dimension maxSize;
     private Dimension minSize;
     private Dimension wantSize;
@@ -123,6 +128,30 @@ public abstract class Box extends BoxAbs {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public VisibilityEnum getVisibility() {
+
+        VisibilityEnum v = null;
+        BoxStyle st = this.style;
+
+        if (st != null) {
+            v = st.getVisibility();
+        }
+
+        if (v == null) {
+            v = this.visibility;
+        }
+
+        if (v == null) {
+            v = VisibilityEnum.VISIBLE;
+        }
+
+        return v;
+    }
+
+    public void setVisibility(VisibilityEnum visibility) {
+        this.visibility = visibility;
     }
 
 }

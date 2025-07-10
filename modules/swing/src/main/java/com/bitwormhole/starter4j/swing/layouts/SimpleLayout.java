@@ -31,9 +31,9 @@ public class SimpleLayout implements ILayout {
     }
 
     private void innerPrepareContainerSize(LayoutContext lc, BoxContainer parent) {
-        Dimension size = parent.getWantSize();
+        Dimension size = parent.getSize();
         if (size == null) {
-            size = parent.getSize();
+            size = parent.getWantSize();
             if (size == null) {
                 size = new Dimension();
             }
