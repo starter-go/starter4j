@@ -60,7 +60,7 @@ public class BoxContainerEntity extends BoxContainer {
 
         children.forEach((child) -> {
             mec.setDepth(depth2);
-            if (mec.isExited()) {
+            if (mec.isCancelled()) {
                 return;
             }
             child.handleMouseEvent(mec);

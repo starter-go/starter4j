@@ -10,7 +10,7 @@ public class MouseEventContext {
 
     private MouseEvent event;
     private Point locationAtCanvas;
-    private boolean exited;
+    private boolean cancelled;
 
     public MouseEventContext() {
         this.depthLimit = 32;
@@ -44,14 +44,6 @@ public class MouseEventContext {
         this.event = event;
     }
 
-    public boolean isExited() {
-        return exited;
-    }
-
-    public void setExited(boolean exited) {
-        this.exited = exited;
-    }
-
     public int getDepth() {
         return depth;
     }
@@ -66,6 +58,14 @@ public class MouseEventContext {
 
     public void setDepthLimit(int depthLimit) {
         this.depthLimit = depthLimit;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
 }
