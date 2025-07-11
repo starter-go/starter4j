@@ -53,8 +53,9 @@ public class CanvasAdapter extends JPanel {
 
             rebuildLayout(rect);
 
-            Dimension size = com.getSize();
-            logger.info("MyCompListener.componentResized( w:" + size.width + ", h:" + size.height + " )");
+            // Dimension size = com.getSize();
+            // logger.info("MyCompListener.componentResized( w:" + size.width + ", h:" +
+            // size.height + " )");
         }
 
         @Override

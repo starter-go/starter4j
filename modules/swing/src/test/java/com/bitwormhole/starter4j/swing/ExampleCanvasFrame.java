@@ -51,11 +51,16 @@ public class ExampleCanvasFrame extends JFrame {
         Box boxItemsH = this.makeItemsBox(61, LinearLayout.HORIZONTAL);
         Box boxItemsV = this.makeItemsBox(61, LinearLayout.VERTICAL);
 
+        btn1.setZ(0);
+        btn2.setZ(0);
+        btn3.setZ(0);
+        btn4.setZ(0);
+
         btn1.setWeight(2);
         btn2.setWeight(2);
         btn3.setWeight(2);
         btn4.setWeight(2);
-        boxItemsH.setWeight(90);
+        boxItemsH.setWeight(9);
         boxItemsV.setWeight(2);
 
         Box pbox = btn3;
@@ -69,11 +74,11 @@ public class ExampleCanvasFrame extends JFrame {
         hg.setLayout(new LinearLayout(LinearLayout.HORIZONTAL));
 
         hg.add(btn1);
-        hg.add(btn2);
         hg.add(btn3);
-        hg.add(btn4);
+        hg.add(btn2);
         hg.add(boxItemsH);
         hg.add(boxItemsV);
+        hg.add(btn4);
 
         vg.add(hg);
         canvas.add(vg);

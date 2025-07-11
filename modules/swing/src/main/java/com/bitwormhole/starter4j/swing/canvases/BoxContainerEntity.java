@@ -15,6 +15,7 @@ public class BoxContainerEntity extends BoxContainer {
         final int depth1 = rc.getDepth();
         final int depth2 = depth1 + 1;
 
+        // 执行绘图时: 按 z 从小到大的顺序执行
         children.forEach((item) -> {
             rc.setDepth(depth2);
             item.render(rc);
@@ -58,13 +59,15 @@ public class BoxContainerEntity extends BoxContainer {
             throw new RuntimeException("too deep");
         }
 
-        children.forEach((child) -> {
+        // 响应鼠标事件时: 按 z 从大到小的顺序执行
+        for (int i = children.size() - 1; i >= 0; i--) {
+            final Box child = children.get(i);
             mec.setDepth(depth2);
             if (mec.isCancelled()) {
-                return;
+                break;
             }
             child.handleMouseEvent(mec);
-        });
+        }
     }
 
     @Override
@@ -101,6 +104,20 @@ public class BoxContainerEntity extends BoxContainer {
             return;
         }
 
+        // 首先检查是否需要排序: 如果所有的 z==0, 则不需要排序
+        boolean need_sort = false;
+        for (Box box : all) {
+            int z = box.getZ();
+            if (z != 0) {
+                need_sort = true;
+                break;
+            }
+        }
+        if (!need_sort) {
+            return;
+        }
+
+        // 按 z 从小到大排序
         all.sort((child1, child2) -> {
             if (child1 == null || child2 == null) {
                 return 0;
@@ -109,6 +126,8 @@ public class BoxContainerEntity extends BoxContainer {
             int z2 = child2.getZ();
             return (z1 - z2);
         });
+
+        all.hashCode(); // 调试点
     }
 
     private final ILayout getLayoutSafe() {
