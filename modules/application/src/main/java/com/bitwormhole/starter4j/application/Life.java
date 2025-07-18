@@ -3,19 +3,24 @@ package com.bitwormhole.starter4j.application;
 public class Life {
 
 	/**
-	 *  order of starting, low value first
+	 * order of starting, low value first
 	 */
 	public int order;
 
 	public OnCreateFunc onCreate;
+	public OnDestroyFunc onDestroy;
+	public OnLoopFunc onLoop;
+
+	public OnPauseFunc onPause;
+	public OnResumeFunc onResume;
+
 	public OnStartPreFunc onStartPre;
 	public OnStartFunc onStart;
 	public OnStartPostFunc onStartPost;
-	public OnLoopFunc onLoop;
+
 	public OnStopPreFunc onStopPre;
 	public OnStopFunc onStop;
 	public OnStopPostFunc onStopPost;
-	public OnDestroyFunc onDestroy;
 
 	public Life() {
 	}
@@ -94,40 +99,52 @@ public class Life {
 
 	//////////////////////////////////////////////////////////
 
-	public interface OnCreateFunc {
+	public interface OnLifecycleFunction {
 		void invoke();
 	}
 
-	public interface OnStartPreFunc {
-		void invoke();
+	public interface OnCreateFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnStartFunc {
-		void invoke();
+	public interface OnStartPreFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnStartPostFunc {
-		void invoke();
+	public interface OnStartFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnStopPreFunc {
-		void invoke();
+	public interface OnStartPostFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnStopFunc {
-		void invoke();
+	public interface OnStopPreFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnStopPostFunc {
-		void invoke();
+	public interface OnStopFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnDestroyFunc {
-		void invoke();
+	public interface OnStopPostFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
-	public interface OnLoopFunc {
-		void invoke();
+	public interface OnDestroyFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnLoopFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnPauseFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnResumeFunc extends OnLifecycleFunction {
+		// void invoke();
 	}
 
 }

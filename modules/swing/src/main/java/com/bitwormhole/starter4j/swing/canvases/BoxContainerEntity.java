@@ -48,6 +48,11 @@ public class BoxContainerEntity extends BoxContainer {
 
     @Override
     protected void onMouseEvent(MouseEventContext mec) {
+
+        if (mec.isCancelled()) {
+            return;
+        }
+
         super.onMouseEvent(mec);
 
         final List<Box> children = this.getChildren();
@@ -65,8 +70,9 @@ public class BoxContainerEntity extends BoxContainer {
             mec.setDepth(depth2);
             if (mec.isCancelled()) {
                 break;
+            } else {
+                child.handleMouseEvent(mec);
             }
-            child.handleMouseEvent(mec);
         }
     }
 
