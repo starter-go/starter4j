@@ -16,6 +16,9 @@ import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Getters;
 import com.bitwormhole.starter4j.swing.canvases.RenderContext;
 
+/********************************
+ * CLabel：Canvas-Label
+ */
 public class CLabel extends BoxEntity {
 
     private String text;
@@ -35,7 +38,6 @@ public class CLabel extends BoxEntity {
 
     @Override
     protected void onPaintForeground(RenderContext rc) {
-        super.onPaintForeground(rc);
 
         BoxStyle style1 = this.getStyle();
         prepareStyle(style1);
@@ -53,6 +55,8 @@ public class CLabel extends BoxEntity {
         g.setFont(font);
         g.setColor(fgColor);
         g.drawString(str, pt2.x, pt2.y);
+
+        super.onPaintForeground(rc);
     }
 
     public String getText() {
@@ -102,11 +106,12 @@ public class CLabel extends BoxEntity {
 
         double text_w, text_h, box_w, box_h;
         AlignEnum align;
+        BoxStyle style;
 
-        void init(Box box, String txt, BoxStyle style) {
+        void init(Box box, String txt, BoxStyle _style) {
 
             Dimension box_size = box.getSize();
-            Font font = Getters.notNull(style.getFont());
+            Font font = Getters.notNull(_style.getFont());
 
             AffineTransform at = new AffineTransform();
             FontRenderContext frc = new FontRenderContext(at, true, true);
@@ -116,8 +121,8 @@ public class CLabel extends BoxEntity {
             this.box_w = box_size.getWidth();
             this.text_h = txt_rect.getHeight();
             this.text_w = txt_rect.getWidth();
-            // this.text = txt;
-            this.align = style.getTextAlign();
+            this.align = _style.getTextAlign();
+            this.style = _style;
         }
 
         Point location() {
@@ -145,35 +150,63 @@ public class CLabel extends BoxEntity {
         }
 
         Point computeLocationTopLeft() {
-            return this.computeLocationCenter();
+            final int p_top = this.style.getPaddingTop();
+            final int p_left = this.style.getPaddingLeft();
+            double x = 0 + p_left;
+            double y = text_h + p_top;
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationTopRight() {
-            return this.computeLocationCenter();
+            final int p_top = this.style.getPaddingTop();
+            final int p_right = this.style.getPaddingRight();
+            double x = (box_w - text_w) - p_right;
+            double y = text_h + p_top;
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationBottomLeft() {
-            return this.computeLocationCenter();
+            final int p_bottom = this.style.getPaddingBottom();
+            final int p_left = this.style.getPaddingLeft();
+            double x = 0 + p_left;
+            double y = box_h - p_bottom;
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationBottomRight() {
-            return this.computeLocationCenter();
+            final int p_bottom = this.style.getPaddingBottom();
+            final int p_right = this.style.getPaddingRight();
+            double x = (box_w - text_w) - p_right;
+            double y = box_h - p_bottom;
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationLeft() {
-            return this.computeLocationCenter();
+            final int p_left = this.style.getPaddingLeft();
+            double x = 0 + p_left;
+            double y = (box_h / 2) + (text_h / 4);
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationRight() {
-            return this.computeLocationCenter();
+            final int p_right = this.style.getPaddingRight();
+            double x = (box_w - text_w) - p_right;
+            double y = (box_h / 2) + (text_h / 4);
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationBottom() {
-            return this.computeLocationCenter();
+            final int p_bottom = this.style.getPaddingBottom();
+            double x = (box_w - text_w) / 2;
+            double y = box_h - p_bottom;
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationTop() {
-            return this.computeLocationCenter();
+            final int p_top = this.style.getPaddingTop();
+            double x = (box_w - text_w) / 2;
+            double y = text_h + p_top;
+            return new Point((int) x, (int) y);
         }
 
         Point computeLocationCenter() {

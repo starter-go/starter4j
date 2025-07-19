@@ -85,6 +85,11 @@ public class BoxStyle {
         this.borderRightWidth = -1;
         this.borderBottomWidth = -1;
 
+        this.paddingTop = -1;
+        this.paddingLeft = -1;
+        this.paddingRight = -1;
+        this.paddingBottom = -1;
+
     }
 
     public Color getBackgroundColor() {
@@ -296,7 +301,8 @@ public class BoxStyle {
     }
 
     public int getPaddingTop() {
-        return paddingTop;
+        // return paddingTop;
+        return Getters.getFirstAvailableWidth(this.paddingTop, this.padding);
     }
 
     public void setPaddingTop(int paddingTop) {
@@ -304,7 +310,8 @@ public class BoxStyle {
     }
 
     public int getPaddingLeft() {
-        return paddingLeft;
+        // return paddingLeft;
+        return Getters.getFirstAvailableWidth(this.paddingLeft, this.padding);
     }
 
     public void setPaddingLeft(int paddingLeft) {
@@ -312,7 +319,8 @@ public class BoxStyle {
     }
 
     public int getPaddingRight() {
-        return paddingRight;
+        // return paddingRight;
+        return Getters.getFirstAvailableWidth(this.paddingRight, this.padding);
     }
 
     public void setPaddingRight(int paddingRight) {
@@ -320,7 +328,8 @@ public class BoxStyle {
     }
 
     public int getPaddingBottom() {
-        return paddingBottom;
+        // return paddingBottom;
+        return Getters.getFirstAvailableWidth(this.paddingBottom, this.padding);
     }
 
     public void setPaddingBottom(int paddingBottom) {

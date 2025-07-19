@@ -2,6 +2,7 @@ package com.bitwormhole.starter4j.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,8 +57,9 @@ public final class Example9LabelsFrame extends FrameWithLife {
 
         for (int i = 0; i < 9; i++) {
             CLabel label = new CLabel();
-            label.setText("label-" + i);
             this.setupLabelStyle(i, label);
+            AlignEnum align = label.getStyle().getTextAlign();
+            label.setText("label-" + i + ":" + align);
             canvas.add(label);
         }
 
@@ -112,9 +114,12 @@ public final class Example9LabelsFrame extends FrameWithLife {
 
         BoxStyle style = label.getStyle();
 
-        style.setBorderWidth(1);
         style.setBorderColor(Color.blue);
         style.setBorderStyle(LineStyle.SOLID);
+        style.setBorderWidth(1);
+        style.setFont(new Font("text-9-labels", Font.PLAIN, 20));
+        style.setForegroundColor(Color.RED);
+        style.setPadding(5);
         style.setTextAlign(this.getAlignByIndex(index));
 
         label.setStyle(style);

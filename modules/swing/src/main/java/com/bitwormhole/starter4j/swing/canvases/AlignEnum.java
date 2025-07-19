@@ -3,11 +3,11 @@ package com.bitwormhole.starter4j.swing.canvases;
 public enum AlignEnum {
 
     CENTER,
-    JUSTIFY,
-    JUSTIFY_ALL,
 
-    START,
-    END,
+    // JUSTIFY,
+    // JUSTIFY_ALL,
+    // START,
+    // END,
 
     TOP,
     LEFT,
