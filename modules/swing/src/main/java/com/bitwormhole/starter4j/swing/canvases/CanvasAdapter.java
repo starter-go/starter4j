@@ -60,7 +60,7 @@ public class CanvasAdapter extends JPanel {
 
         @Override
         public void componentMoved(ComponentEvent e) {
-            logger.info("MyCompListener.componentMoved()");
+            // logger.info("MyCompListener.componentMoved()");
         }
 
         @Override
