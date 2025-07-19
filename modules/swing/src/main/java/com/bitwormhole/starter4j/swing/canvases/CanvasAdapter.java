@@ -91,14 +91,17 @@ public class CanvasAdapter extends JPanel {
 
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            // TODO Auto-generated method stub
-
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.WHEEL_MOVED);
+            ctx.setLocationAtCanvas(e.getPoint());
+            ctx.setWheel(new MouseEventContext.WheelInfo()); // TODO ...
+            this.dispatchEvent(ctx);
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            // TODO Auto-generated method stub
-
+            MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.DRAGGED);
+            ctx.setLocationAtCanvas(e.getPoint());
+            this.dispatchEvent(ctx);
         }
 
         @Override

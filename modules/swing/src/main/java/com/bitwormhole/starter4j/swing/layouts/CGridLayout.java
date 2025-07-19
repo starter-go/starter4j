@@ -10,17 +10,17 @@ import com.bitwormhole.starter4j.swing.canvases.ILayout;
 import com.bitwormhole.starter4j.swing.canvases.LayoutContext;
 
 /***
- * TableLayout 这个布局提供一个类似表格的 "行-列" 式布局
+ * CGridLayout 这个布局提供一个类似表格的 "行-列" 式布局
  */
-public class TableLayout implements ILayout {
+public class CGridLayout implements ILayout {
 
     private int rows;
     private int columns;
 
-    public TableLayout() {
+    public CGridLayout() {
     }
 
-    public TableLayout(int _rows, int _cols) {
+    public CGridLayout(int _rows, int _cols) {
         this.rows = _rows;
         this.columns = _cols;
     }

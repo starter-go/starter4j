@@ -14,7 +14,7 @@ import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Canvas;
 import com.bitwormhole.starter4j.swing.canvases.CanvasAdapter;
 import com.bitwormhole.starter4j.swing.canvases.LineStyle;
-import com.bitwormhole.starter4j.swing.layouts.TableLayout;
+import com.bitwormhole.starter4j.swing.layouts.CGridLayout;
 
 public final class Example9LabelsFrame extends FrameWithLife {
 
@@ -53,7 +53,7 @@ public final class Example9LabelsFrame extends FrameWithLife {
         CanvasAdapter ada = new CanvasAdapter();
         this.add(ada, BorderLayout.CENTER);
         Canvas canvas = ada.getCanvas();
-        canvas.setLayout(new TableLayout(3, 3));
+        canvas.setLayout(new CGridLayout(3, 3));
 
         for (int i = 0; i < 9; i++) {
             CLabel label = new CLabel();

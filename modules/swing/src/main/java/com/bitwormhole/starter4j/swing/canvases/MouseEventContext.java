@@ -12,12 +12,19 @@ public class MouseEventContext {
     private Point locationAtCanvas;
     private boolean cancelled;
 
+    private WheelInfo wheel; // optional
+
     public MouseEventContext() {
         this.depthLimit = 32;
     }
 
     public enum MouseEvent {
-        UNKNOWN, PRESSED, RELEASED, MOVED, OVER, ENTER, LEAVE, CLICKED,
+        UNKNOWN, PRESSED, RELEASED, MOVED, OVER, ENTER, LEAVE, CLICKED, DRAGGED, WHEEL_MOVED,
+    }
+
+    public static class WheelInfo {
+
+        // todo ...
     }
 
     public Canvas getCanvas() {
@@ -66,6 +73,14 @@ public class MouseEventContext {
 
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
+    }
+
+    public WheelInfo getWheel() {
+        return wheel;
+    }
+
+    public void setWheel(WheelInfo wheel) {
+        this.wheel = wheel;
     }
 
 }

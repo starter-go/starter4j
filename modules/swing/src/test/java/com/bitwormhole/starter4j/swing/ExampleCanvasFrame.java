@@ -14,8 +14,11 @@ import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Canvas;
 import com.bitwormhole.starter4j.swing.canvases.CanvasAdapter;
 import com.bitwormhole.starter4j.swing.canvases.LineStyle;
+import com.bitwormhole.starter4j.swing.canvases.MouseEventContext;
+import com.bitwormhole.starter4j.swing.canvases.MouseEventContext.MouseEvent;
 import com.bitwormhole.starter4j.swing.canvases.RenderContext;
 import com.bitwormhole.starter4j.swing.layouts.LinearLayout;
+import com.bitwormhole.starter4j.swing.layouts.CGridLayout;
 import com.bitwormhole.starter4j.swing.boxes.CButton;
 import com.bitwormhole.starter4j.swing.boxes.CGroup;
 import com.bitwormhole.starter4j.swing.boxes.CLabel;
@@ -49,6 +52,7 @@ public class ExampleCanvasFrame extends FrameWithLife {
         CButton btn4 = new CButton("哈哈哈-looooong");
         Box boxItemsH = this.makeItemsBox(61, LinearLayout.HORIZONTAL);
         Box boxItemsV = this.makeItemsBox(61, LinearLayout.VERTICAL);
+        MyMouseEventTestingView met_view = new MyMouseEventTestingView();
 
         btn1.setZ(0);
         btn2.setZ(0);
@@ -70,7 +74,8 @@ public class ExampleCanvasFrame extends FrameWithLife {
         // btn2.setVisibility(VisibilityEnum.GONE);
 
         vg.setLayout(new LinearLayout(LinearLayout.VERTICAL));
-        hg.setLayout(new LinearLayout(LinearLayout.HORIZONTAL));
+        // hg.setLayout(new LinearLayout(LinearLayout.HORIZONTAL));
+        hg.setLayout(new CGridLayout(3, 4));
 
         hg.add(btn1);
         hg.add(btn3);
@@ -78,6 +83,7 @@ public class ExampleCanvasFrame extends FrameWithLife {
         hg.add(boxItemsH);
         hg.add(boxItemsV);
         hg.add(btn4);
+        hg.add(met_view);
 
         vg.add(hg);
         canvas.add(vg);
@@ -188,6 +194,35 @@ public class ExampleCanvasFrame extends FrameWithLife {
                 logger.info(sb.toString());
             }
         }
+    }
+
+    static class MyMouseEventTestingView extends CLabel {
+
+        MyMouseEventTestingView() {
+            this.onCreate();
+        }
+
+        void onCreate() {
+
+            BoxStyle sty = this.getStyle();
+
+            sty.setBorderColor(Color.YELLOW);
+            sty.setBorderStyle(LineStyle.SOLID);
+            sty.setBorderWidth(2);
+
+            this.setStyle(sty);
+            this.setText("mouse-event-test");
+        }
+
+        @Override
+        protected void onMouseEvent(MouseEventContext mec) {
+            super.onMouseEvent(mec);
+            MouseEvent me = mec.getEvent();
+            Point at_can = mec.getLocationAtCanvas();
+            Point at_box = this.convertCanvasToLocal(at_can);
+            logger.info(".onMouseEvent(), event:" + me + ", x:" + at_box.x + ", y:" + at_box.y);
+        }
+
     }
 
     // private final static class MyFactory implements FrameFactory {
