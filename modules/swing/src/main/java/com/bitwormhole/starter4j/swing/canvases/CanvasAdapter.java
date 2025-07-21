@@ -155,6 +155,7 @@ public class CanvasAdapter extends JPanel {
         this.addMouseWheelListener(sml);
 
         this.addComponentListener(new MyCompListener());
+
     }
 
     private void rebuildLayout(Rectangle rect) {
@@ -162,13 +163,15 @@ public class CanvasAdapter extends JPanel {
         Dimension want_size = rect.getSize();
         LayoutContext lc = new LayoutContext();
         LayoutContextRoot root = lc.getRoot();
+        CanvasContext cc = this.canvas.getCanvasContext();
 
         root.setCanvas(this.canvas);
         lc.setChild(this.canvas);
+        lc.setCanvasContext(cc);
 
         this.canvas.setSize(want_size);
         this.canvas.setWantSize(want_size);
-        this.canvas.rebuildLayout(lc);
+        this.canvas.updateLayout(lc);
 
         // 最后, 计算所有 box 的绝对 position (pos@canvas)
         List<Box> all = root.getBoxes();

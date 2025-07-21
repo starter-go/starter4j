@@ -25,10 +25,10 @@ public class BoxEntity extends Box {
         }
     }
 
-    @Override
-    public void rebuildLayout(LayoutContext lc) {
-        this.onBuildLayout(lc);
-    }
+    // @Override
+    // public void rebuildLayout(LayoutContext lc) {
+    // this.onBuildLayout(lc);
+    // }
 
     @Override
     protected void onPaintBackground(RenderContext rc) {
@@ -38,28 +38,6 @@ public class BoxEntity extends Box {
     @Override
     protected void onPaintForeground(RenderContext rc) {
         this.innerPaintBorder(rc);
-    }
-
-    @Override
-    protected void onBuildLayoutPre(LayoutContext lc) {
-        lc.add(this);
-        this.setParent(lc.getParent());
-        this.innerInitDefaultSize(lc);
-    }
-
-    @Override
-    protected void onBuildLayoutPost(LayoutContext lc) {
-    }
-
-    @Override
-    protected void onBuildLayoutSelf(LayoutContext lc) {
-    }
-
-    @Override
-    protected void onBuildLayout(LayoutContext lc) {
-        this.onBuildLayoutPre(lc);
-        this.onBuildLayoutSelf(lc);
-        this.onBuildLayoutPost(lc);
     }
 
     private void innerInitDefaultSize(LayoutContext lc) {
@@ -235,6 +213,22 @@ public class BoxEntity extends Box {
         bottom = position.y + size.height;
 
         return ((left <= ptr.x) && (ptr.x <= right) && (top <= ptr.y) && (ptr.y <= bottom));
+    }
+
+    @Override
+    public void updateLayout(LayoutContext lc) {
+        this.onUpdateLayout(lc);
+    }
+
+    @Override
+    protected void onUpdateLayout(LayoutContext lc) {
+
+        lc.add(this);
+
+        this.setCanvasContext(lc.getCanvasContext());
+        this.setParent(lc.getParent());
+        this.innerInitDefaultSize(lc);
+
     }
 
 }

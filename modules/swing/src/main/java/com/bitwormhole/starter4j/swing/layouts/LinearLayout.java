@@ -25,23 +25,16 @@ public class LinearLayout implements ILayout {
     }
 
     @Override
-    public void onBuildLayoutPre(LayoutContext lc, BoxContainer cantainer) {
-    }
-
-    @Override
-    public void onBuildLayoutContainer(LayoutContext lc, BoxContainer cantainer) {
+    public void updateLayout(LayoutContext lc, BoxContainer container) {
 
         if (this.isHorizontal()) {
-            this.doBuildLayoutH(lc, cantainer);
+            this.doBuildLayoutH(lc, container);
         } else {
-            this.doBuildLayoutV(lc, cantainer);
+            this.doBuildLayoutV(lc, container);
         }
 
-        AbstractLayout.buildLayoutForChildren(lc, cantainer);
-    }
+        container.updateLayoutForChildren(lc);
 
-    @Override
-    public void onBuildLayoutPost(LayoutContext lc, BoxContainer cantainer) {
     }
 
     //////////////////////////////////////////////////////////////////

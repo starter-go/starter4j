@@ -23,30 +23,6 @@ public class BoxContainerEntity extends BoxContainer {
     }
 
     @Override
-    protected void onBuildLayoutPost(LayoutContext lc) {
-        super.onBuildLayoutPost(lc);
-        final ILayout l = this.getLayoutSafe();
-        l.onBuildLayoutPost(lc, this);
-    }
-
-    @Override
-    protected void onBuildLayoutPre(LayoutContext lc) {
-
-        this.innerSortChildrenByZ();
-        super.onBuildLayoutPre(lc);
-
-        final ILayout l = this.getLayoutSafe();
-        l.onBuildLayoutPre(lc, this);
-    }
-
-    @Override
-    protected void onBuildLayoutSelf(LayoutContext lc) {
-        super.onBuildLayoutSelf(lc);
-        final ILayout l = this.getLayoutSafe();
-        l.onBuildLayoutContainer(lc, this);
-    }
-
-    @Override
     protected void onMouseEvent(MouseEventContext mec) {
 
         if (mec.isCancelled()) {
@@ -90,14 +66,48 @@ public class BoxContainerEntity extends BoxContainer {
     }
 
     @Override
-    public final void rebuildLayout(LayoutContext lc) {
+    public final void updateLayout(LayoutContext lc) {
+        super.updateLayout(lc);
+    }
 
-        // this.checkDepth(lc);
-        // this.onBuildLayoutChildren(lc);
+    @Override
+    public void updateLayoutForChildren(LayoutContext lc) {
 
-        this.onBuildLayoutPre(lc);
-        this.onBuildLayoutSelf(lc);
-        this.onBuildLayoutPost(lc);
+        if (lc == null) {
+            return;
+        }
+
+        BoxContainer parent = this;
+        List<Box> children = parent.getChildren();
+        final int depth1 = lc.getDepth();
+        final int depth2 = depth1 + 1;
+        final int limit = lc.getRoot().getDepthLimit();
+
+        if (depth2 > limit) {
+            throw new RuntimeException("too deep");
+        }
+
+        children.forEach((child) -> {
+            final LayoutContext lc2 = new LayoutContext(lc);
+            lc2.setDepth(depth2);
+            lc2.setChild(child);
+            lc2.setParent(parent);
+            child.updateLayout(lc2);
+        });
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// protected
+
+    @Override
+    protected void onUpdateLayout(LayoutContext lc) {
+        super.onUpdateLayout(lc);
+
+        this.innerSortChildrenByZ();
+
+        final ILayout l = this.getLayoutSafe();
+        l.updateLayout(lc, this);
     }
 
     ////////////////////////////////////////////////////////////////////////////

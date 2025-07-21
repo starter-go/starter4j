@@ -10,15 +10,7 @@ import com.bitwormhole.starter4j.swing.canvases.LayoutContext;
 public class ExampleLayout implements ILayout {
 
     @Override
-    public void onBuildLayoutPre(LayoutContext lc, BoxContainer cantainer) {
-    }
-
-    @Override
-    public void onBuildLayoutContainer(LayoutContext lc, BoxContainer cantainer) {
-    }
-
-    @Override
-    public void onBuildLayoutPost(LayoutContext lc, BoxContainer cantainer) {
+    public void updateLayout(LayoutContext lc, BoxContainer cantainer) {
     }
 
 }

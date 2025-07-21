@@ -16,18 +16,15 @@ import com.bitwormhole.starter4j.swing.canvases.LayoutContext;
 public class SimpleLayout implements ILayout {
 
     @Override
-    public void onBuildLayoutPre(LayoutContext lc, BoxContainer parent) {
+    public void updateLayout(LayoutContext lc, BoxContainer parent) {
+
+        // AbstractLayout.buildLayoutForChildren(lc, parent);
+
         this.innerPrepareContainerSize(lc, parent);
         this.innerComputeChildrenSize(lc, parent);
-    }
 
-    @Override
-    public void onBuildLayoutPost(LayoutContext lc, BoxContainer parent) {
-    }
+        parent.updateLayoutForChildren(lc);
 
-    @Override
-    public void onBuildLayoutContainer(LayoutContext lc, BoxContainer parent) {
-        AbstractLayout.buildLayoutForChildren(lc, parent);
     }
 
     private void innerPrepareContainerSize(LayoutContext lc, BoxContainer parent) {

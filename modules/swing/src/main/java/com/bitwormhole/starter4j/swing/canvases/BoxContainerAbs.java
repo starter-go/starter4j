@@ -10,6 +10,8 @@ public abstract class BoxContainerAbs extends BoxEntity {
 
     public abstract BoxContainer add(Box child);
 
+    public abstract void updateLayoutForChildren(LayoutContext lc);
+
     // protected
 
     protected abstract void onPaintChildren(RenderContext rc);

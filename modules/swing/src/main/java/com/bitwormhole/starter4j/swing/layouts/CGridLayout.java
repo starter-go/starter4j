@@ -26,17 +26,12 @@ public class CGridLayout implements ILayout {
     }
 
     @Override
-    public void onBuildLayoutPre(LayoutContext lc, BoxContainer container) {
-    }
+    public void updateLayout(LayoutContext lc, BoxContainer container) {
 
-    @Override
-    public void onBuildLayoutContainer(LayoutContext lc, BoxContainer container) {
         this.doMakeLayout(lc, container);
-    }
 
-    @Override
-    public void onBuildLayoutPost(LayoutContext lc, BoxContainer container) {
-        AbstractLayout.buildLayoutForChildren(lc, container);
+        container.updateLayoutForChildren(lc);
+
     }
 
     private void doMakeLayout(LayoutContext lc, BoxContainer container) {
@@ -51,6 +46,8 @@ public class CGridLayout implements ILayout {
         }
 
         int x, y, w, h;
+        int w2, h2;
+
         x = 0;
         y = 0;
         w = size.width / col_count;
@@ -62,7 +59,19 @@ public class CGridLayout implements ILayout {
                 final Box child = this.getChildAt(index, all);
                 x = w * col;
                 y = h * row;
-                this.makeChildLayout(child, x, y, w, h);
+                w2 = w;
+                h2 = h;
+
+                if (col == col_count - 1) {
+                    // 如果是最后一列
+                    w2 = size.width - x;
+                }
+                if (row == row_count - 1) {
+                    // 如果是最后一行
+                    h2 = size.height - y;
+                }
+
+                this.makeChildLayout(child, x, y, w2, h2);
             }
         }
     }

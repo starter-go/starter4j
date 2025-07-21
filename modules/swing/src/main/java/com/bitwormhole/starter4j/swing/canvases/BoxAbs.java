@@ -13,13 +13,7 @@ public abstract class BoxAbs implements IRenderable, ILayoutable, IMouseEventLis
 
     // layout
 
-    protected abstract void onBuildLayout(LayoutContext lc);
-
-    protected abstract void onBuildLayoutPre(LayoutContext lc);
-
-    protected abstract void onBuildLayoutSelf(LayoutContext lc);
-
-    protected abstract void onBuildLayoutPost(LayoutContext lc);
+    protected abstract void onUpdateLayout(LayoutContext lc);
 
     // mouse-event
     protected abstract void onMouseEvent(MouseEventContext mec);
