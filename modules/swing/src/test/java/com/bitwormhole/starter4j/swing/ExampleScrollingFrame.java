@@ -1,5 +1,6 @@
 package com.bitwormhole.starter4j.swing;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -15,6 +16,7 @@ import com.bitwormhole.starter4j.swing.canvases.BoxContainerEntity;
 import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Canvas;
 import com.bitwormhole.starter4j.swing.canvases.CanvasAdapter;
+import com.bitwormhole.starter4j.swing.canvases.LineStyle;
 import com.bitwormhole.starter4j.swing.canvases.RenderContext;
 import com.bitwormhole.starter4j.swing.layouts.CGridLayout;
 
@@ -71,7 +73,15 @@ public class ExampleScrollingFrame extends FrameWithLife {
         }
 
         private void onCreate() {
-            this.setSize(new Dimension(100, 100));
+
+            BoxStyle sty = this.getStyle();
+            sty.setBorderColor(Color.RED);
+            sty.setBorderStyle(LineStyle.SOLID);
+            sty.setBorderWidth(3);
+
+            this.setStyle(sty);
+            this.setSize(new Dimension(1024, 768));
+
         }
 
         @Override

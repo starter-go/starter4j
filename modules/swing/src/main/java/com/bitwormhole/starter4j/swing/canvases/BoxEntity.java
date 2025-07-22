@@ -225,8 +225,11 @@ public class BoxEntity extends Box {
             return;
         }
 
-        if (!isHit(ctx)) {
-            return;
+        final boolean scme = this.isWorkingForShortCircuitMouseEvent();
+        if (!scme) {
+            if (!isHit(ctx)) {
+                return;
+            }
         }
 
         Point l1 = ctx.getLocationAtCanvas();
@@ -238,6 +241,8 @@ public class BoxEntity extends Box {
 
     @Override
     protected void onMouseEvent(MouseEventContext mec) {
+        Canvas canvas = mec.getCanvas();
+        this.setCanvasContext(canvas.getCanvasContext());
     }
 
     private boolean isHit(MouseEventContext mectx) {
@@ -289,6 +294,11 @@ public class BoxEntity extends Box {
     @Override
     protected Point computeMyPositionAtCanvas() {
         return computePositionAtCanvas(this, 64);
+    }
+
+    @Override
+    protected boolean isWorkingForShortCircuitMouseEvent() {
+        return false;
     }
 
 }

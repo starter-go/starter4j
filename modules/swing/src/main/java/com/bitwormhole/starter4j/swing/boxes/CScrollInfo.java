@@ -5,17 +5,67 @@ public class CScrollInfo {
     private int min;
     private int max;
     private int position;
-    private int viewportSize;
+    private int pageSize;
 
     public CScrollInfo() {
+        this.initAsDefault();
     }
 
-    public int getViewportSize() {
-        return viewportSize;
+    public CScrollInfo(CScrollInfo src) {
+
+        if (src == null) {
+            this.initAsDefault();
+            return;
+        }
+
+        this.min = src.min;
+        this.position = src.position;
+        this.pageSize = src.pageSize;
+        this.max = src.max;
     }
 
-    public void setViewportSize(int viewportSize) {
-        this.viewportSize = viewportSize;
+    public static CScrollInfo normalize(CScrollInfo i) {
+
+        if (i == null) {
+            return new CScrollInfo();
+        }
+
+        // check total range (max)
+        int total = i.max - i.min;
+        if (total < 0) {
+            total = 0;
+            i.max = i.min;
+        }
+
+        // check page - size
+        int ps = i.pageSize; // the page-size
+        if (ps > total) {
+            ps = total;
+        }
+        if (ps < 1) {
+            ps = 1;
+        }
+        i.pageSize = ps;
+
+        // check position
+        int limit = i.min + (total - ps);
+        int pos = i.position;
+        if (pos > limit) {
+            pos = limit;
+        }
+        if (pos < i.min) {
+            pos = i.min;
+        }
+        i.position = pos;
+
+        return i;
+    }
+
+    private final void initAsDefault() {
+        this.min = 0;
+        this.position = 0;
+        this.pageSize = 25;
+        this.max = 100;
     }
 
     public int getMin() {
@@ -40,6 +90,14 @@ public class CScrollInfo {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
 }

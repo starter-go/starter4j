@@ -24,4 +24,6 @@ public abstract class BoxAbs implements IRenderable, ILayoutable, IMouseEventLis
     // mouse-event
     protected abstract void onMouseEvent(MouseEventContext mec);
 
+    protected abstract boolean isWorkingForShortCircuitMouseEvent();
+
 }

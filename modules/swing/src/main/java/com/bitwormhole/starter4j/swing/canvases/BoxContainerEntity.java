@@ -1,7 +1,6 @@
 package com.bitwormhole.starter4j.swing.canvases;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.List;
 
 /****
@@ -158,22 +157,6 @@ public class BoxContainerEntity extends BoxContainer {
         }
         return l2;
     }
-
-    // private void checkDepth(LayoutContext lc) {
-
-    // final int limit = lc.getDepthLimit();
-    // final int depth = lc.getDepth();
-
-    // if (depth > limit) {
-    // StringBuilder sb = new StringBuilder();
-    // sb.append("the layout call-stack is too deep");
-    // sb.append(", depth=").append(depth);
-    // sb.append(", limit=").append(limit);
-    // throw new RuntimeException(sb.toString());
-    // }
-
-    // lc.setDepth(depth);
-    // }
 
     private void checkDepth(RenderContext rc) {
 

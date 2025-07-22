@@ -9,7 +9,10 @@ public class CanvasContext {
     private int layoutRevision; // 用于检查是否需要重排版
     private int paintRevision; // 用于检查是否需要重绘
 
+    private final ShortCircuitMouseEventDispatcher scmeDispatcher;
+
     public CanvasContext() {
+        this.scmeDispatcher = new ShortCircuitMouseEventDispatcher();
     }
 
     public void requestUpdateLayout() {
@@ -50,6 +53,10 @@ public class CanvasContext {
 
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
+    }
+
+    public ShortCircuitMouseEventDispatcher getScmeDispatcher() {
+        return scmeDispatcher;
     }
 
 }

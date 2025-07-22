@@ -3,7 +3,6 @@ package com.bitwormhole.starter4j.swing.canvases;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -92,6 +91,7 @@ public class CanvasAdapter extends JPanel {
             final MouseEventContext ctx = new MouseEventContext();
             ctx.setCanvas(adapter.canvas);
             ctx.setEvent(me);
+            ctx.setAdapter(adapter);
             return ctx;
         }
 
@@ -107,6 +107,15 @@ public class CanvasAdapter extends JPanel {
         public void mouseDragged(MouseEvent e) {
             MouseEventContext ctx = this.prepareEvent(MouseEventContext.MouseEvent.DRAGGED);
             ctx.setLocationAtCanvas(e.getPoint());
+
+            // dispatch to SCME at first
+            ShortCircuitMouseEventDispatcher scme_disp = ctx.getCanvas().getCanvasContext().getScmeDispatcher();
+            scme_disp.dispatch(ctx);
+
+            if (ctx.isCancelled()) {
+                return;
+            }
+
             this.dispatchEvent(ctx);
         }
 

@@ -14,6 +14,7 @@ public abstract class Box extends BoxAbs {
     private int z; // z 轴坐标
     private int index; // 这个 box 在父容器中的原始序号
     private int weight; // 这个 box 的大小在同级元素中所占比重
+
     private boolean presence; // 由 Layout 计算决定: 是否出现在 Paint & MouseEvent 队列中
     private boolean clipped; // 确定这个 box 是否需要裁切
 

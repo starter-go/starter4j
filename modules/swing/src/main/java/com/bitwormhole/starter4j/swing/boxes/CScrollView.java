@@ -15,6 +15,10 @@ public class CScrollView extends BoxContainerEntity {
     public CScrollView() {
         this.scrollBarH = new CScrollBar(CScrollBar.Direction.HORIZONTAL);
         this.scrollBarV = new CScrollBar(CScrollBar.Direction.VERTICAL);
+
+        this.scrollBarH.setInfo(new CScrollInfo());
+        this.scrollBarV.setInfo(new CScrollInfo());
+
     }
 
     public Box getContent() {

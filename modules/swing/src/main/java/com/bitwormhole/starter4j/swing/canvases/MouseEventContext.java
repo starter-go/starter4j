@@ -5,13 +5,15 @@ import java.awt.Point;
 public class MouseEventContext {
 
     private Canvas canvas;
+    private CanvasAdapter adapter;
+
     private int depth;
     private int depthLimit;
-
+    private boolean cancelled;
     private MouseEvent event;
+
     private Point location; // 相对于本地坐标系的位置
     private Point locationAtCanvas; // 相对于 canvas 坐标系的位置
-    private boolean cancelled;
 
     private WheelInfo wheel; // optional
 
@@ -90,6 +92,14 @@ public class MouseEventContext {
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+
+    public CanvasAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(CanvasAdapter adapter) {
+        this.adapter = adapter;
     }
 
 }
