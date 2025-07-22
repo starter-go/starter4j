@@ -7,28 +7,48 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /****
  * BoxEntity 是 Box 的实体类，它实现了 Box 中的所有抽象方法
  */
 public class BoxEntity extends Box {
+
+    static final Logger logger = LoggerFactory.getLogger(BoxEntity.class);
 
     public BoxEntity() {
         super();
     }
 
     @Override
-    public void render(RenderContext rc) {
-        final VisibilityEnum v = this.getVisibility();
-        if (VisibilityEnum.isVisible(v)) {
-            this.onPaintBackground(rc);
-            this.onPaintForeground(rc);
-        }
-    }
+    public final void render(RenderContext rc) {
 
-    // @Override
-    // public void rebuildLayout(LayoutContext lc) {
-    // this.onBuildLayout(lc);
-    // }
+        if (!this.isPresence()) {
+            return;
+        }
+
+        final VisibilityEnum v = this.getVisibility();
+        if (!VisibilityEnum.isVisible(v)) {
+            return;
+        }
+
+        Graphics g = rc.getGraphics();
+        Point pt = this.getPosition();
+        boolean is_clip = this.isClipped();
+        Dimension my_size = this.getSize();
+
+        // apply translate
+        g.translate(pt.x, pt.y);
+
+        // apply clip
+        if (is_clip) {
+            g.clipRect(0, 0, my_size.width, my_size.height);
+            // g.setClip(0, 0, my_size.width, my_size.height);
+        }
+
+        this.onPaint(rc);
+    }
 
     @Override
     protected void onPaintBackground(RenderContext rc) {
@@ -84,7 +104,8 @@ public class BoxEntity extends Box {
     // 绘制边框
     private void innerPaintBorder(RenderContext rc) {
 
-        final Point pos = this.getPositionAtCanvas();
+        // final Point pos = this.getPositionAtCanvas();
+
         final Dimension size = this.getSize();
         final Graphics2D g = (Graphics2D) rc.getGraphics();
         final BoxStyle bs = Getters.notNull(this.getStyle());
@@ -92,19 +113,21 @@ public class BoxEntity extends Box {
         LineStyle style;
         int width, x1, x2, y1, y2;
 
-        if (pos == null || size == null) {
+        if (size == null) {
             return;
         }
+
+        // logger.info("paintBorder@ size:" + size + " pos:" + pos);
 
         // top
         color = bs.getBorderTopColor();
         width = bs.getBorderTopWidth();
         style = bs.getBorderTopStyle();
         if (innerHasBorder(color, style, width)) {
-            x1 = pos.x;
-            y1 = pos.y;
-            x2 = pos.x + size.width;
-            y2 = pos.y;
+            x1 = 0;
+            y1 = 0;
+            x2 = size.width;
+            y2 = 0;
             g.setStroke(new BasicStroke(width));
             g.setColor(color);
             g.drawLine(x1, y1, x2, y2);
@@ -115,10 +138,10 @@ public class BoxEntity extends Box {
         width = bs.getBorderLeftWidth();
         style = bs.getBorderLeftStyle();
         if (innerHasBorder(color, style, width)) {
-            x1 = pos.x;
-            y1 = pos.y;
-            x2 = pos.x;
-            y2 = pos.y + size.height;
+            x1 = 0;
+            y1 = 0;
+            x2 = 0;
+            y2 = size.height;
             g.setStroke(new BasicStroke(width));
             g.setColor(color);
             g.drawLine(x1, y1, x2, y2);
@@ -129,10 +152,10 @@ public class BoxEntity extends Box {
         width = bs.getBorderRightWidth();
         style = bs.getBorderRightStyle();
         if (innerHasBorder(color, style, width)) {
-            x1 = pos.x + size.width;
-            y1 = pos.y;
-            x2 = pos.x + size.width;
-            y2 = pos.y + size.height;
+            x1 = size.width;
+            y1 = 0;
+            x2 = size.width;
+            y2 = size.height;
             g.setStroke(new BasicStroke(width));
             g.setColor(color);
             g.drawLine(x1, y1, x2, y2);
@@ -143,16 +166,38 @@ public class BoxEntity extends Box {
         width = bs.getBorderBottomWidth();
         style = bs.getBorderBottomStyle();
         if (innerHasBorder(color, style, width)) {
-            x1 = pos.x;
-            y1 = pos.y + size.height;
-            x2 = pos.x + size.width;
-            y2 = pos.y + size.height;
+            x1 = 0;
+            y1 = size.height;
+            x2 = size.width;
+            y2 = size.height;
             g.setStroke(new BasicStroke(width));
             g.setColor(color);
             g.drawLine(x1, y1, x2, y2);
         }
 
         // return;
+    }
+
+    private static Point computePositionAtCanvas(Box item, int limit) {
+        int cx, cy, depth;
+        depth = cx = cy = 0;
+        Box p = item;
+        for (; p != null; p = p.getParent()) {
+            if (depth > limit) {
+                String msg = "the layout stack is too deep, limit=" + limit;
+                logger.error(msg);
+                throw new RuntimeException(msg);
+            }
+            Point pos = p.getPosition();
+            if (pos == null) {
+                pos = new Point();
+                p.setPosition(pos);
+            }
+            cx += pos.x;
+            cy += pos.y;
+            depth++;
+        }
+        return new Point(cx, cy);
     }
 
     private static boolean innerHasBorder(Color c, LineStyle s, int w) {
@@ -173,7 +218,7 @@ public class BoxEntity extends Box {
     }
 
     @Override
-    public void handleMouseEvent(MouseEventContext ctx) {
+    public final void handleMouseEvent(MouseEventContext ctx) {
 
         VisibilityEnum visi = this.getVisibility();
         if (!VisibilityEnum.isVisible(visi)) {
@@ -183,6 +228,10 @@ public class BoxEntity extends Box {
         if (!isHit(ctx)) {
             return;
         }
+
+        Point l1 = ctx.getLocationAtCanvas();
+        Point l2 = this.convertCanvasToLocal(l1);
+        ctx.setLocation(l2);
 
         this.onMouseEvent(ctx);
     }
@@ -229,6 +278,17 @@ public class BoxEntity extends Box {
         this.setParent(lc.getParent());
         this.innerInitDefaultSize(lc);
 
+    }
+
+    @Override
+    protected void onPaint(RenderContext rc) {
+        this.onPaintBackground(rc);
+        this.onPaintForeground(rc);
+    }
+
+    @Override
+    protected Point computeMyPositionAtCanvas() {
+        return computePositionAtCanvas(this, 64);
     }
 
 }

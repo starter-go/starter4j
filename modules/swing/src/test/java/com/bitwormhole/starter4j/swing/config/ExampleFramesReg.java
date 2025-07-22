@@ -8,6 +8,7 @@ import com.bitwormhole.starter4j.application.ComponentTemplate.RegistrationT;
 import com.bitwormhole.starter4j.swing.ExampleCanvasFrame;
 import com.bitwormhole.starter4j.swing.Example9LabelsFrame;
 import com.bitwormhole.starter4j.swing.ExampleHomeFrame;
+import com.bitwormhole.starter4j.swing.ExampleScrollingFrame;
 import com.bitwormhole.starter4j.swing.FrameRegistration;
 import com.bitwormhole.starter4j.swing.FrameRegistry;
 
@@ -39,6 +40,7 @@ public class ExampleFramesReg implements FrameRegistry {
         dst.add(Example9LabelsFrame.registration());
         dst.add(ExampleCanvasFrame.registration());
         dst.add(ExampleHomeFrame.registration());
+        dst.add(ExampleScrollingFrame.registration());
 
         return dst;
     }

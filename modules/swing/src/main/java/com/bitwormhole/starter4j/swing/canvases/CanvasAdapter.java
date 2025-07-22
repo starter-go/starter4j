@@ -21,10 +21,6 @@ import org.slf4j.LoggerFactory;
 
 public class CanvasAdapter extends JPanel {
 
-    private static final Logger logger = LoggerFactory.getLogger(CanvasAdapter.class);
-
-    private final Canvas canvas;
-
     public CanvasAdapter() {
         this.canvas = new Canvas();
         this.onCreate();
@@ -42,6 +38,16 @@ public class CanvasAdapter extends JPanel {
 
     ////////////////////////////////////////////////////////////////////////////
     /// private
+
+    private static final Logger logger = LoggerFactory.getLogger(CanvasAdapter.class);
+
+    private final Canvas canvas;
+    private final MyRevisionTracker mRevisionTracker = new MyRevisionTracker();
+
+    private static class MyRevisionTracker {
+        int layoutRevision;
+        int paintRevision;
+    }
 
     private class MyCompListener implements ComponentListener {
 
@@ -160,6 +166,14 @@ public class CanvasAdapter extends JPanel {
 
     private void rebuildLayout(Rectangle rect) {
 
+        if (rect == null) {
+            rect = this.getBounds();
+        }
+
+        // make revision sync
+        int rev = this.canvas.getCanvasContext().getLayoutRevision();
+        this.mRevisionTracker.layoutRevision = rev;
+
         Dimension want_size = rect.getSize();
         LayoutContext lc = new LayoutContext();
         LayoutContextRoot root = lc.getRoot();
@@ -173,36 +187,20 @@ public class CanvasAdapter extends JPanel {
         this.canvas.setWantSize(want_size);
         this.canvas.updateLayout(lc);
 
-        // 最后, 计算所有 box 的绝对 position (pos@canvas)
+        // 最后, 清除缓存的 p@c (position@canvas)
         List<Box> all = root.getBoxes();
         all.forEach((box) -> {
-            box.setPositionAtCanvas(computePositionAtCanvas(box, 32));
-            // logger.info("todo: compute box.pos@canvas [" + box + "]");
+            box.setPositionAtCanvas(null);
         });
 
         this.repaint();
     }
 
-    private static Point computePositionAtCanvas(Box item, int limit) {
-        int cx, cy, depth;
-        depth = cx = cy = 0;
-        Box p = item;
-        for (; p != null; p = p.getParent()) {
-            if (depth > limit) {
-                String msg = "the layout stack is too deep, limit=" + limit;
-                logger.error(msg);
-                throw new RuntimeException(msg);
-            }
-            Point pos = p.getPosition();
-            if (pos == null) {
-                pos = new Point();
-                p.setPosition(pos);
-            }
-            cx += pos.x;
-            cy += pos.y;
-            depth++;
-        }
-        return new Point(cx, cy);
+    private boolean isNeedRebuildLayout() {
+        CanvasContext cc = this.canvas.getCanvasContext();
+        int r1 = cc.getLayoutRevision();
+        int r2 = this.mRevisionTracker.layoutRevision;
+        return (r1 != r2);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -211,29 +209,25 @@ public class CanvasAdapter extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Dimension size = this.getSize();
-        // int l, r, t, b, padding;
-        // padding = 10;
-        // t = 0 + padding;
-        // l = 0 + padding;
-        // r = size.width - padding;
-        // b = size.height - padding;
-        // g.setColor(Color.red);
-        // g.drawRect(l, t, r - l, b - t);
-        // g.fillRect(10, 10, 100, 100);
-
     }
 
     @Override
     public void paint(Graphics g) {
+
         super.paint(g);
+
+        // 渲染之前,先检查是否需要重排版
+        if (this.isNeedRebuildLayout()) {
+            this.rebuildLayout(null);
+        }
+
+        int rev = this.canvas.getCanvasContext().getPaintRevision();
+        this.mRevisionTracker.paintRevision = rev;
 
         RenderContext rc = new RenderContext();
         rc.setGraphics(g);
         rc.setCanvas(this.canvas);
         this.canvas.render(rc);
-
     }
 
 }

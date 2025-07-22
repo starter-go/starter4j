@@ -182,17 +182,17 @@ public class ExampleCanvasFrame extends FrameWithLife {
             w = s.width;
             h = s.height;
 
-            if (z == 0) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("MyItemView.[onPaintForeground");
-                sb.append(" h:").append(h);
-                sb.append(" w:").append(w);
-                sb.append(" x:").append(x);
-                sb.append(" y:").append(y);
-                sb.append(" z:").append(z);
-                sb.append(']');
-                logger.info(sb.toString());
-            }
+            // if (z == 0) {
+            //     StringBuilder sb = new StringBuilder();
+            //     sb.append("MyItemView.[onPaintForeground");
+            //     sb.append(" h:").append(h);
+            //     sb.append(" w:").append(w);
+            //     sb.append(" x:").append(x);
+            //     sb.append(" y:").append(y);
+            //     sb.append(" z:").append(z);
+            //     sb.append(']');
+            //     logger.info(sb.toString());
+            // }
         }
     }
 

@@ -3,6 +3,7 @@ package com.bitwormhole.starter4j.swing.canvases;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 
 import com.bitwormhole.starter4j.swing.layouts.SimpleLayout;
 
@@ -14,6 +15,13 @@ public final class Getters {
     public static BoxStyle notNull(BoxStyle o) {
         if (o == null) {
             o = new BoxStyle();
+        }
+        return o;
+    }
+
+    public static Point notNull(Point o) {
+        if (o == null) {
+            o = new Point();
         }
         return o;
     }

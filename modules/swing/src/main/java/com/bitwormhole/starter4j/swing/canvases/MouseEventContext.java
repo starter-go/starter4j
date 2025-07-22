@@ -9,7 +9,8 @@ public class MouseEventContext {
     private int depthLimit;
 
     private MouseEvent event;
-    private Point locationAtCanvas;
+    private Point location; // 相对于本地坐标系的位置
+    private Point locationAtCanvas; // 相对于 canvas 坐标系的位置
     private boolean cancelled;
 
     private WheelInfo wheel; // optional
@@ -81,6 +82,14 @@ public class MouseEventContext {
 
     public void setWheel(WheelInfo wheel) {
         this.wheel = wheel;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
 }

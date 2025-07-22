@@ -49,12 +49,12 @@ public class CLabel extends BoxEntity {
 
         TextLocationComputer tlc = new TextLocationComputer();
         tlc.init(this, str, style1);
-        Point pt1 = tlc.location();
-        Point pt2 = local2canvas(pt1);
+        Point pt = tlc.location();
+        // Point pt2 = local2canvas(pt1);
 
         g.setFont(font);
         g.setColor(fgColor);
-        g.drawString(str, pt2.x, pt2.y);
+        g.drawString(str, pt.x, pt.y);
 
         super.onPaintForeground(rc);
     }

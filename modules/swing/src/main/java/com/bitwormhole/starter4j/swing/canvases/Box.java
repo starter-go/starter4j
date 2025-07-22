@@ -9,9 +9,13 @@ public abstract class Box extends BoxAbs {
     private CanvasContext canvasContext;
 
     private BoxStyle style;
-    private int z; // the z-index
-    private int weight;
+    private String id; // 类似 HTML 中的 Element.id
+    private int layoutId; // 用于某些布局中,识别特定元素
+    private int z; // z 轴坐标
+    private int index; // 这个 box 在父容器中的原始序号
+    private int weight; // 这个 box 的大小在同级元素中所占比重
     private boolean presence; // 由 Layout 计算决定: 是否出现在 Paint & MouseEvent 队列中
+    private boolean clipped; // 确定这个 box 是否需要裁切
 
     /**
      * style 中的 visibility 具有更高优先级, 如果 style 没有提供, 则使用这里的值
@@ -25,12 +29,13 @@ public abstract class Box extends BoxAbs {
     private Dimension size; // box 实际的大小
 
     private Point position; // @parent: box 实际的位置
-    private Point positionAtCanvas; // @canvas: box 相对于画布坐标系的位置
+    private Point positionAtCanvas; // @canvas: 缓存 box 相对于画布坐标系的位置
 
     public Box() {
         this.style = new BoxStyle();
         this.weight = 1;
         this.presence = true; // 默认是存在的
+        this.clipped = true;
     }
 
     public Point convertCanvasToLocal(Point at_canvas) {
@@ -104,7 +109,7 @@ public abstract class Box extends BoxAbs {
     }
 
     public Dimension getSize() {
-        return size;
+        return Getters.notNull(this.size);
     }
 
     public void setSize(Dimension size) {
@@ -112,7 +117,7 @@ public abstract class Box extends BoxAbs {
     }
 
     public Point getPosition() {
-        return position;
+        return Getters.notNull(this.position);
     }
 
     public void setPosition(Point position) {
@@ -120,7 +125,12 @@ public abstract class Box extends BoxAbs {
     }
 
     public Point getPositionAtCanvas() {
-        return positionAtCanvas;
+        Point pt = this.positionAtCanvas;
+        if (pt == null) {
+            pt = this.computeMyPositionAtCanvas();
+            this.positionAtCanvas = pt;
+        }
+        return pt;
     }
 
     public void setPositionAtCanvas(Point positionAtCanvas) {
@@ -181,6 +191,38 @@ public abstract class Box extends BoxAbs {
 
     public void setPresence(boolean presence) {
         this.presence = presence;
+    }
+
+    public boolean isClipped() {
+        return clipped;
+    }
+
+    public void setClipped(boolean clipped) {
+        this.clipped = clipped;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getLayoutId() {
+        return layoutId;
+    }
+
+    public void setLayoutId(int layoutId) {
+        this.layoutId = layoutId;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
 }

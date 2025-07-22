@@ -68,6 +68,7 @@ public final class ExampleHomeFrame extends FrameWithLife {
         this.setupButton("Try Promise", (ae) -> this.onClickButton1_try_promise(ae));
         this.setupButton("Show Canvas Frame", (ae) -> this.onClickButton2_show_canvas_frame(ae));
         this.setupButton("Show 9-Labels", (ae) -> this.onClickButton3_show_9_labels(ae));
+        this.setupButton("Show Scrolling", (ae) -> this.onClickButton4_show_scrolling(ae));
     }
 
     private void onClickButton1_try_promise(ActionEvent event) {
@@ -97,6 +98,19 @@ public final class ExampleHomeFrame extends FrameWithLife {
         goal.setContext(ac);
         goal.setFrameClass(ExampleCanvasFrame.class);
         fm.show(goal);
+    }
+
+    private void onClickButton4_show_scrolling(ActionEvent event) {
+
+        ApplicationContext ac = this.mAC;
+        ComponentSelector cs = ComponentSelector.getInstance();
+        String sel = cs.ID(FrameManager.class);
+        final FrameManager fm = ac.selectComponent(sel, FrameManager.class);
+        final Goal goal = new Goal();
+        goal.setContext(ac);
+        goal.setFrameClass(ExampleScrollingFrame.class);
+        fm.show(goal);
+
     }
 
     private void onClickButton3_show_9_labels(ActionEvent event) {

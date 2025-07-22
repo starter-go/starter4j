@@ -80,15 +80,12 @@ public final class SwingFrameLifeAdapter implements IFrameLifeAdapter {
 
         @Override
         public void windowClosing(WindowEvent e) {
-            // destroy
-            run(life.onDestroy);
         }
 
         @Override
         public void windowClosed(WindowEvent e) {
             // destroy
-            // run(life.onDestroy);
-            run(null);
+            run(life.onDestroy);
         }
 
         @Override

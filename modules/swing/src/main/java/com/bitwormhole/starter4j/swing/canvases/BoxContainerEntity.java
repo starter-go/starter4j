@@ -1,5 +1,7 @@
 package com.bitwormhole.starter4j.swing.canvases;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.List;
 
 /****
@@ -9,14 +11,29 @@ import java.util.List;
 public class BoxContainerEntity extends BoxContainer {
 
     @Override
+    protected void onPaint(RenderContext rc) {
+
+        // super.onPaint(rc);
+
+        this.onPaintBackground(rc);
+        this.onPaintChildren(rc);
+        this.onPaintForeground(rc);
+    }
+
+    @Override
     protected void onPaintChildren(RenderContext rc) {
+
+        this.checkDepth(rc);
 
         final List<Box> children = this.getChildren();
         final int depth1 = rc.getDepth();
         final int depth2 = depth1 + 1;
+        final Graphics g1 = rc.getGraphics();
 
         // 执行绘图时: 按 z 从小到大的顺序执行
         children.forEach((item) -> {
+            Graphics g2 = g1.create();
+            rc.setGraphics(g2);
             rc.setDepth(depth2);
             item.render(rc);
         });
@@ -49,19 +66,6 @@ public class BoxContainerEntity extends BoxContainer {
             } else {
                 child.handleMouseEvent(mec);
             }
-        }
-    }
-
-    @Override
-    public final void render(RenderContext rc) {
-
-        this.checkDepth(rc);
-
-        final VisibilityEnum v = this.getVisibility();
-        if (VisibilityEnum.isVisible(v)) {
-            this.onPaintBackground(rc);
-            this.onPaintChildren(rc);
-            this.onPaintForeground(rc);
         }
     }
 
