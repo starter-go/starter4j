@@ -100,4 +100,37 @@ public class CScrollInfo {
         this.pageSize = pageSize;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CScrollInfo) {
+            return equals(this, (CScrollInfo) obj);
+        }
+        return false;
+    }
+
+    public static boolean equals(CScrollInfo i1, CScrollInfo i2) {
+
+        if (i1 == null || i2 == null) {
+            return false;
+        }
+        if (i1 == i2) {
+            return true;
+        }
+
+        if (i1.min != i2.min) {
+            return false;
+        }
+        if (i1.max != i2.max) {
+            return false;
+        }
+        if (i1.position != i2.position) {
+            return false;
+        }
+        if (i1.pageSize != i2.pageSize) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

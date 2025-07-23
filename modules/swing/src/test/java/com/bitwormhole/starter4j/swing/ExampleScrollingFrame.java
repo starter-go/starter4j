@@ -92,19 +92,12 @@ public class ExampleScrollingFrame extends FrameWithLife {
             int w = my_size.width;
             int h = my_size.height;
 
-            Point p1 = this.convertLocalToCanvas(new Point(0, 0));
-            Point p2 = this.convertLocalToCanvas(new Point(w, h));
-            Point p3 = this.convertLocalToCanvas(new Point(0, h));
-            Point p4 = this.convertLocalToCanvas(new Point(w, 0));
-
             Graphics g = rc.getGraphics();
             BoxStyle sty = this.getStyle();
 
             g.setColor(sty.getForegroundColor());
-            // g.setClip( );
-            // g.translate( );
-            g.drawLine(p1.x, p1.y, p2.x, p2.y);
-            g.drawLine(p3.x, p3.y, p4.x, p4.y);
+            g.drawLine(0, 0, w, h);
+            g.drawLine(0, h, w, 0);
         }
 
     }

@@ -123,6 +123,7 @@ public abstract class Box extends BoxAbs {
 
     public void setPosition(Point position) {
         this.position = position;
+        this.positionAtCanvas = null;
     }
 
     public Point getPositionAtCanvas() {

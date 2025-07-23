@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bitwormhole.starter4j.swing.canvases.Box;
 import com.bitwormhole.starter4j.swing.canvases.BoxEntity;
 import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
@@ -25,6 +28,7 @@ public class CScrollBar extends BoxEntity {
         this.rectPageMore = new Rectangle();
         this.rectPageRange = new Rectangle();
         this.rectFullRange = new Rectangle();
+        this.listeners = new ArrayList<>();
 
         this.innerOnCreate();
     }
@@ -33,13 +37,30 @@ public class CScrollBar extends BoxEntity {
         HORIZONTAL, VERTICAL, W, E, N, S,
     }
 
+    public static class ScrollingEvent {
+        public CScrollBar scrollBar;
+        public CScrollInfo info;
+    }
+
+    public interface ScrollingListener {
+        void onScrolled(ScrollingEvent evt);
+    }
+
     public CScrollInfo getInfo() {
         return MyTools.normalize(info);
     }
 
     public void setInfo(CScrollInfo i) {
-        this.info = MyTools.normalize(i);
 
+        CScrollInfo i1 = this.info; // older
+        CScrollInfo i2 = MyTools.normalize(i); // newer
+        this.info = i2;
+
+        if (CScrollInfo.equals(i1, i2)) {
+            return;
+        }
+
+        this.dispatchScrollingEvent();
         this.repaintMyself();
     }
 
@@ -49,6 +70,20 @@ public class CScrollBar extends BoxEntity {
 
     public void setDirection(Direction dir) {
         this.direction = MyTools.normalize(dir);
+    }
+
+    public void addListener(ScrollingListener li) {
+        if (li == null) {
+            return;
+        }
+        this.listeners.add(li);
+    }
+
+    public void removeListener(ScrollingListener li) {
+        if (li == null) {
+            return;
+        }
+        this.listeners.remove(li);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -96,6 +131,8 @@ public class CScrollBar extends BoxEntity {
     private final Rectangle rectPageMore;
     private final Rectangle rectPageRange;
     private final Rectangle rectFullRange;
+
+    private final List<ScrollingListener> listeners;
 
     private interface InnerBar {
 
@@ -568,6 +605,17 @@ public class CScrollBar extends BoxEntity {
         sty.setBorderWidth(1);
 
         sty.setBackgroundColor(Color.gray);
+    }
+
+    private void dispatchScrollingEvent() {
+        final ScrollingEvent evt = new ScrollingEvent();
+        evt.info = this.getInfo();
+        evt.scrollBar = this;
+        this.listeners.forEach((li) -> {
+            if (li != null) {
+                li.onScrolled(evt);
+            }
+        });
     }
 
     private void repaintMyself() {
