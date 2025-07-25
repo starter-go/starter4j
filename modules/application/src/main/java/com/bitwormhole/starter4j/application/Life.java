@@ -2,6 +2,9 @@ package com.bitwormhole.starter4j.application;
 
 public class Life {
 
+	////////////////////////////////////////////////////////////////////////////
+	/// public
+
 	/**
 	 * order of starting, low value first
 	 */
@@ -34,6 +37,9 @@ public class Life {
 		this.onLoop = src.onLoop;
 		this.onDestroy = src.onDestroy;
 
+		this.onPause = src.onPause;
+		this.onResume = src.onResume;
+
 		this.onStart = src.onStart;
 		this.onStartPre = src.onStartPre;
 		this.onStartPost = src.onStartPost;
@@ -42,62 +48,6 @@ public class Life {
 		this.onStopPre = src.onStopPre;
 		this.onStopPost = src.onStopPost;
 	}
-
-	public void normalize() {
-		Life nop = getNopLife();
-
-		this.onLoop = normalizeFn(this.onLoop, nop.onLoop);
-		this.onCreate = normalizeFn(this.onCreate, nop.onCreate);
-		this.onDestroy = normalizeFn(this.onDestroy, nop.onDestroy);
-
-		this.onStart = normalizeFn(this.onStart, nop.onStart);
-		this.onStartPre = normalizeFn(this.onStartPre, nop.onStartPre);
-		this.onStartPost = normalizeFn(this.onStartPost, nop.onStartPost);
-
-		this.onStop = normalizeFn(this.onStop, nop.onStop);
-		this.onStopPre = normalizeFn(this.onStopPre, nop.onStopPre);
-		this.onStopPost = normalizeFn(this.onStopPost, nop.onStopPost);
-	}
-
-	private static <T> T normalizeFn(T t1, T t2) {
-		return (t1 != null) ? t1 : t2;
-	}
-
-	private static Life theNopLife;
-
-	private static Life getNopLife() {
-		Life l = theNopLife;
-		if (l != null) {
-			return l;
-		}
-		l = new Life();
-
-		l.onCreate = () -> {
-		};
-		l.onLoop = () -> {
-		};
-		l.onDestroy = () -> {
-		};
-
-		l.onStart = () -> {
-		};
-		l.onStartPre = () -> {
-		};
-		l.onStartPost = () -> {
-		};
-
-		l.onStop = () -> {
-		};
-		l.onStopPre = () -> {
-		};
-		l.onStopPost = () -> {
-		};
-
-		theNopLife = l;
-		return l;
-	}
-
-	//////////////////////////////////////////////////////////
 
 	public interface OnLifecycleFunction {
 		void invoke();
@@ -146,5 +96,64 @@ public class Life {
 	public interface OnResumeFunc extends OnLifecycleFunction {
 		// void invoke();
 	}
+
+	public void normalize() {
+		Life nop = getNopLife();
+
+		this.onLoop = normalizeFn(this.onLoop, nop.onLoop);
+		this.onCreate = normalizeFn(this.onCreate, nop.onCreate);
+		this.onDestroy = normalizeFn(this.onDestroy, nop.onDestroy);
+
+		this.onPause = normalizeFn(this.onPause, nop.onPause);
+		this.onResume = normalizeFn(this.onResume, nop.onResume);
+
+		this.onStart = normalizeFn(this.onStart, nop.onStart);
+		this.onStartPre = normalizeFn(this.onStartPre, nop.onStartPre);
+		this.onStartPost = normalizeFn(this.onStartPost, nop.onStartPost);
+
+		this.onStop = normalizeFn(this.onStop, nop.onStop);
+		this.onStopPre = normalizeFn(this.onStopPre, nop.onStopPre);
+		this.onStopPost = normalizeFn(this.onStopPost, nop.onStopPost);
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+	/// private
+
+	private static <T> T normalizeFn(T t1, T t2) {
+		return (t1 != null) ? t1 : t2;
+	}
+
+	private static Life theNopLife;
+
+	private static Life getNopLife() {
+		Life l = theNopLife;
+		if (l != null) {
+			return l;
+		}
+		l = new Life();
+
+		l.onCreate = () -> Life.nop();
+		l.onLoop = () -> Life.nop();
+		l.onDestroy = () -> Life.nop();
+
+		l.onPause = () -> Life.nop();
+		l.onResume = () -> Life.nop();
+
+		l.onStart = () -> Life.nop();
+		l.onStartPre = () -> Life.nop();
+		l.onStartPost = () -> Life.nop();
+
+		l.onStop = () -> Life.nop();
+		l.onStopPre = () -> Life.nop();
+		l.onStopPost = () -> Life.nop();
+
+		theNopLife = l;
+		return l;
+	}
+
+	private static void nop() {
+	}
+
+	//////////////////////////////////////////////////////////
 
 }
