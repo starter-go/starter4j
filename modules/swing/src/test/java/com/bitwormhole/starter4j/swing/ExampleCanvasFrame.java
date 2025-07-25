@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 
-import javax.swing.JFrame;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,21 +14,25 @@ import com.bitwormhole.starter4j.swing.canvases.BoxStyle;
 import com.bitwormhole.starter4j.swing.canvases.Canvas;
 import com.bitwormhole.starter4j.swing.canvases.CanvasAdapter;
 import com.bitwormhole.starter4j.swing.canvases.LineStyle;
+import com.bitwormhole.starter4j.swing.canvases.MouseEventContext;
+import com.bitwormhole.starter4j.swing.canvases.MouseEventContext.MouseEvent;
 import com.bitwormhole.starter4j.swing.canvases.RenderContext;
-import com.bitwormhole.starter4j.swing.canvases.VisibilityEnum;
 import com.bitwormhole.starter4j.swing.layouts.LinearLayout;
-import com.bitwormhole.starter4j.swing.layouts.LinearLayout.Direction;
+import com.bitwormhole.starter4j.swing.layouts.CGridLayout;
 import com.bitwormhole.starter4j.swing.boxes.CButton;
 import com.bitwormhole.starter4j.swing.boxes.CGroup;
 import com.bitwormhole.starter4j.swing.boxes.CLabel;
 
-public class ExampleCanvasFrame extends JFrame {
+public class ExampleCanvasFrame extends FrameWithLife {
 
     static final Logger logger = LoggerFactory.getLogger(ExampleCanvasFrame.class);
 
     private CanvasAdapter adapter;
 
-    private void onCreate() {
+    protected void onCreate() {
+
+        super.onCreate();
+
         CanvasAdapter ada = createCanvasAdapter();
         this.adapter = ada;
         this.setLayout(new BorderLayout());
@@ -50,12 +52,18 @@ public class ExampleCanvasFrame extends JFrame {
         CButton btn4 = new CButton("哈哈哈-looooong");
         Box boxItemsH = this.makeItemsBox(61, LinearLayout.HORIZONTAL);
         Box boxItemsV = this.makeItemsBox(61, LinearLayout.VERTICAL);
+        MyMouseEventTestingView met_view = new MyMouseEventTestingView();
+
+        btn1.setZ(0);
+        btn2.setZ(0);
+        btn3.setZ(0);
+        btn4.setZ(0);
 
         btn1.setWeight(2);
         btn2.setWeight(2);
         btn3.setWeight(2);
         btn4.setWeight(2);
-        boxItemsH.setWeight(90);
+        boxItemsH.setWeight(9);
         boxItemsV.setWeight(2);
 
         Box pbox = btn3;
@@ -66,14 +74,16 @@ public class ExampleCanvasFrame extends JFrame {
         // btn2.setVisibility(VisibilityEnum.GONE);
 
         vg.setLayout(new LinearLayout(LinearLayout.VERTICAL));
-        hg.setLayout(new LinearLayout(LinearLayout.HORIZONTAL));
+        // hg.setLayout(new LinearLayout(LinearLayout.HORIZONTAL));
+        hg.setLayout(new CGridLayout(3, 4));
 
         hg.add(btn1);
-        hg.add(btn2);
         hg.add(btn3);
-        hg.add(btn4);
+        hg.add(btn2);
         hg.add(boxItemsH);
         hg.add(boxItemsV);
+        hg.add(btn4);
+        hg.add(met_view);
 
         vg.add(hg);
         canvas.add(vg);
@@ -153,7 +163,7 @@ public class ExampleCanvasFrame extends JFrame {
         inst.setSize(640, 480);
         // inst.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         inst.setTitle("" + inst.getClass().getName());
-        inst.onCreate();
+        // inst.onCreate();
         return inst;
     }
 
@@ -172,18 +182,47 @@ public class ExampleCanvasFrame extends JFrame {
             w = s.width;
             h = s.height;
 
-            if (z == 0) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("MyItemView.[onPaintForeground");
-                sb.append(" h:").append(h);
-                sb.append(" w:").append(w);
-                sb.append(" x:").append(x);
-                sb.append(" y:").append(y);
-                sb.append(" z:").append(z);
-                sb.append(']');
-                logger.info(sb.toString());
-            }
+            // if (z == 0) {
+            //     StringBuilder sb = new StringBuilder();
+            //     sb.append("MyItemView.[onPaintForeground");
+            //     sb.append(" h:").append(h);
+            //     sb.append(" w:").append(w);
+            //     sb.append(" x:").append(x);
+            //     sb.append(" y:").append(y);
+            //     sb.append(" z:").append(z);
+            //     sb.append(']');
+            //     logger.info(sb.toString());
+            // }
         }
+    }
+
+    static class MyMouseEventTestingView extends CLabel {
+
+        MyMouseEventTestingView() {
+            this.onCreate();
+        }
+
+        void onCreate() {
+
+            BoxStyle sty = this.getStyle();
+
+            sty.setBorderColor(Color.YELLOW);
+            sty.setBorderStyle(LineStyle.SOLID);
+            sty.setBorderWidth(2);
+
+            this.setStyle(sty);
+            this.setText("mouse-event-test");
+        }
+
+        @Override
+        protected void onMouseEvent(MouseEventContext mec) {
+            super.onMouseEvent(mec);
+            MouseEvent me = mec.getEvent();
+            Point at_can = mec.getLocationAtCanvas();
+            Point at_box = this.convertCanvasToLocal(at_can);
+            logger.info(".onMouseEvent(), event:" + me + ", x:" + at_box.x + ", y:" + at_box.y);
+        }
+
     }
 
     // private final static class MyFactory implements FrameFactory {
