@@ -3,6 +3,7 @@ package com.bitwormhole.starter4j.swing.canvases;
 public class LayoutContext {
 
     private LayoutContextRoot root;
+    private CanvasContext canvasContext;
 
     private int depth;
     private Box child; // the current child item
@@ -56,6 +57,14 @@ public class LayoutContext {
 
     public void add(Box b) {
         this.root.add(b);
+    }
+
+    public CanvasContext getCanvasContext() {
+        return canvasContext;
+    }
+
+    public void setCanvasContext(CanvasContext canvasContext) {
+        this.canvasContext = canvasContext;
     }
 
 }

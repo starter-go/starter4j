@@ -6,6 +6,7 @@ public class RenderContext {
 
     private Canvas canvas;
     private Graphics graphics;
+    private CanvasContext canvasContext;
 
     private int depth;
     private int depthLimit;
@@ -44,6 +45,14 @@ public class RenderContext {
 
     public void setDepthLimit(int depthLimit) {
         this.depthLimit = depthLimit;
+    }
+
+    public CanvasContext getCanvasContext() {
+        return canvasContext;
+    }
+
+    public void setCanvasContext(CanvasContext canvasContext) {
+        this.canvasContext = canvasContext;
     }
 
 }
