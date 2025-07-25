@@ -2,20 +2,28 @@ package com.bitwormhole.starter4j.application;
 
 public class Life {
 
+	////////////////////////////////////////////////////////////////////////////
+	/// public
+
 	/**
-	 *  order of starting, low value first
+	 * order of starting, low value first
 	 */
 	public int order;
 
 	public OnCreateFunc onCreate;
+	public OnDestroyFunc onDestroy;
+	public OnLoopFunc onLoop;
+
+	public OnPauseFunc onPause;
+	public OnResumeFunc onResume;
+
 	public OnStartPreFunc onStartPre;
 	public OnStartFunc onStart;
 	public OnStartPostFunc onStartPost;
-	public OnLoopFunc onLoop;
+
 	public OnStopPreFunc onStopPre;
 	public OnStopFunc onStop;
 	public OnStopPostFunc onStopPost;
-	public OnDestroyFunc onDestroy;
 
 	public Life() {
 	}
@@ -29,6 +37,9 @@ public class Life {
 		this.onLoop = src.onLoop;
 		this.onDestroy = src.onDestroy;
 
+		this.onPause = src.onPause;
+		this.onResume = src.onResume;
+
 		this.onStart = src.onStart;
 		this.onStartPre = src.onStartPre;
 		this.onStartPost = src.onStartPost;
@@ -38,12 +49,63 @@ public class Life {
 		this.onStopPost = src.onStopPost;
 	}
 
+	public interface OnLifecycleFunction {
+		void invoke();
+	}
+
+	public interface OnCreateFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnStartPreFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnStartFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnStartPostFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnStopPreFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnStopFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnStopPostFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnDestroyFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnLoopFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnPauseFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
+	public interface OnResumeFunc extends OnLifecycleFunction {
+		// void invoke();
+	}
+
 	public void normalize() {
 		Life nop = getNopLife();
 
 		this.onLoop = normalizeFn(this.onLoop, nop.onLoop);
 		this.onCreate = normalizeFn(this.onCreate, nop.onCreate);
 		this.onDestroy = normalizeFn(this.onDestroy, nop.onDestroy);
+
+		this.onPause = normalizeFn(this.onPause, nop.onPause);
+		this.onResume = normalizeFn(this.onResume, nop.onResume);
 
 		this.onStart = normalizeFn(this.onStart, nop.onStart);
 		this.onStartPre = normalizeFn(this.onStartPre, nop.onStartPre);
@@ -53,6 +115,9 @@ public class Life {
 		this.onStopPre = normalizeFn(this.onStopPre, nop.onStopPre);
 		this.onStopPost = normalizeFn(this.onStopPost, nop.onStopPost);
 	}
+
+	////////////////////////////////////////////////////////////////////////////
+	/// private
 
 	private static <T> T normalizeFn(T t1, T t2) {
 		return (t1 != null) ? t1 : t2;
@@ -67,67 +132,28 @@ public class Life {
 		}
 		l = new Life();
 
-		l.onCreate = () -> {
-		};
-		l.onLoop = () -> {
-		};
-		l.onDestroy = () -> {
-		};
+		l.onCreate = () -> Life.nop();
+		l.onLoop = () -> Life.nop();
+		l.onDestroy = () -> Life.nop();
 
-		l.onStart = () -> {
-		};
-		l.onStartPre = () -> {
-		};
-		l.onStartPost = () -> {
-		};
+		l.onPause = () -> Life.nop();
+		l.onResume = () -> Life.nop();
 
-		l.onStop = () -> {
-		};
-		l.onStopPre = () -> {
-		};
-		l.onStopPost = () -> {
-		};
+		l.onStart = () -> Life.nop();
+		l.onStartPre = () -> Life.nop();
+		l.onStartPost = () -> Life.nop();
+
+		l.onStop = () -> Life.nop();
+		l.onStopPre = () -> Life.nop();
+		l.onStopPost = () -> Life.nop();
 
 		theNopLife = l;
 		return l;
 	}
 
+	private static void nop() {
+	}
+
 	//////////////////////////////////////////////////////////
-
-	public interface OnCreateFunc {
-		void invoke();
-	}
-
-	public interface OnStartPreFunc {
-		void invoke();
-	}
-
-	public interface OnStartFunc {
-		void invoke();
-	}
-
-	public interface OnStartPostFunc {
-		void invoke();
-	}
-
-	public interface OnStopPreFunc {
-		void invoke();
-	}
-
-	public interface OnStopFunc {
-		void invoke();
-	}
-
-	public interface OnStopPostFunc {
-		void invoke();
-	}
-
-	public interface OnDestroyFunc {
-		void invoke();
-	}
-
-	public interface OnLoopFunc {
-		void invoke();
-	}
 
 }

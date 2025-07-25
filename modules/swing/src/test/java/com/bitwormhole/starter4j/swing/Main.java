@@ -18,7 +18,7 @@ public final class Main {
         SwingApplicationConfig cfg = new SwingApplicationConfig();
         cfg.setArguments(args);
         cfg.setModule(ExampleModule.module());
-        cfg.setMainFrameClass(ExampleFrame.class);
+        cfg.setMainFrameClass(ExampleHomeFrame.class);
         SwingApplicationStarter.run(cfg);
 
     }
