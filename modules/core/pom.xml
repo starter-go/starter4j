@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.bitwormhole.starter4j</groupId>
-        <artifactId>starter4j-parent</artifactId>
-        <version>0.1.1-r22-dev-snapshot</version>
-        <relativePath>./../parent</relativePath>
-    </parent>
+	<parent>
+		<groupId>com.bitwormhole.starter4j</groupId>
+		<artifactId>starter4j-parent</artifactId>
+		<version>0.1.1-r22-dev-snapshot</version>
+		<relativePath>./../parent</relativePath>
+	</parent>
 
-    <artifactId>starter4j-core</artifactId>
+	<artifactId>starter4j-core</artifactId>
 	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
