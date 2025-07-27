@@ -3,19 +3,22 @@ package com.bitwormhole.starter4j.convertors;
 final class ConvertorManagerImpl extends ConvertorManager {
 
     private final ConvertorTable mTable;
+    private final ConvertorProvider mMainProvider;
 
     public ConvertorManagerImpl() {
-        this.mTable = new ConvertorTable();
+        ConvertorTable table = new ConvertorTable();
+        this.mTable = table;
+        this.mMainProvider = new ConvertorFinderChecker(table);
     }
 
     @Override
     public Convertor findConvertor(Class<?> sourceType) {
-        return mTable.findConvertor(sourceType);
+        return mMainProvider.findConvertor(sourceType);
     }
 
     @Override
     public Convertor[] findConvertors(Class<?> sourceType) {
-        return mTable.findConvertors(sourceType);
+        return mMainProvider.findConvertors(sourceType);
     }
 
     @Override

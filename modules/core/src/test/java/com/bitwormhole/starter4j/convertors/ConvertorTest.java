@@ -31,10 +31,38 @@ public class ConvertorTest {
         cm.register(this.getConvertorRegistry());
 
         Convertor convertor1 = cm.findConvertor(DemoPojo.class);
-        Convertor convertor2 = cm.findConvertor(DemoPojo2.class);
+        Convertor convertor2 = null;
+        try {
+            convertor2 = cm.findConvertor(DemoPojo2.class);
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
 
         logger.info("convertor1 = " + convertor1);
         logger.info("convertor2 = " + convertor2);
+    }
+
+    @Test
+    public void testNoConvertorFound() {
+
+        ConvertorManager cm = ConvertorManager.getInstance();
+        Convertor c = null;
+        Exception err = null;
+
+        cm.register(this.getConvertorRegistry());
+
+        try {
+            c = cm.findConvertor(String.class);
+        } catch (Exception e) {
+            System.err.println(e.getMessage()); // ok
+            err = e;
+        }
+
+        if (c == null && err != null) {
+            return;
+        }
+
+        throw new RuntimeException("want error, but no throws");
     }
 
     private ConvertorRegistry getConvertorRegistry() {
