@@ -3,7 +3,9 @@ package com.bitwormhole.starter4j.convertors;
 public final class ConvertorRegistration {
 
     private String name;
-    private Class<?> sourceType;
+    private int priority;
+    private Class<?> inputType;
+    private Class<?> outputType;
     private Convertor convertor;
 
     public ConvertorRegistration() {
@@ -14,7 +16,9 @@ public final class ConvertorRegistration {
             return;
         }
         this.name = cr.name;
-        this.sourceType = cr.sourceType;
+        this.priority = cr.priority;
+        this.inputType = cr.inputType;
+        this.outputType = cr.outputType;
         this.convertor = cr.convertor;
     }
 
@@ -34,12 +38,28 @@ public final class ConvertorRegistration {
         this.convertor = convertor;
     }
 
-    public Class<?> getSourceType() {
-        return sourceType;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setSourceType(Class<?> sourceType) {
-        this.sourceType = sourceType;
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public Class<?> getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(Class<?> inputType) {
+        this.inputType = inputType;
+    }
+
+    public Class<?> getOutputType() {
+        return outputType;
+    }
+
+    public void setOutputType(Class<?> outputType) {
+        this.outputType = outputType;
     }
 
     @Override
@@ -60,13 +80,16 @@ public final class ConvertorRegistration {
             return false;
         }
 
-        if (!isObjectEq(o1.getSourceType(), o2.getSourceType())) {
+        if (!isObjectEq(o1.inputType, o2.inputType)) {
             return false;
         }
-        if (!isObjectEq(o1.getName(), o2.getName())) {
+        if (!isObjectEq(o1.outputType, o2.outputType)) {
             return false;
         }
-        if (!isObjectEq(o1.getConvertor(), o2.getConvertor())) {
+        if (!isObjectEq(o1.name, o2.name)) {
+            return false;
+        }
+        if (!isObjectEq(o1.convertor, o2.convertor)) {
             return false;
         }
         return true;

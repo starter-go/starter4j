@@ -9,13 +9,13 @@ public class ConvertorProviderWrapper implements ConvertorProvider {
     }
 
     @Override
-    public Convertor findConvertor(Class<?> sourceType) {
-        return inner.findConvertor(sourceType);
+    public Convertor findConvertor(ConvertorSelector sel) {
+        return inner.findConvertor(sel);
     }
 
     @Override
-    public Convertor[] findConvertors(Class<?> sourceType) {
-        return inner.findConvertors(sourceType);
+    public Convertor[] findConvertors(ConvertorSelector sel) {
+        return inner.findConvertors(sel);
     }
 
 }

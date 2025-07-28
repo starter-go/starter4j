@@ -4,7 +4,7 @@ public class DemoPojoConvertor implements Convertor {
 
     @Override
     public Object convert(Object src) {
-        DemoPojo o1 = (DemoPojo) src;
+        DemoPojo1 o1 = (DemoPojo1) src;
         DemoPojo2 o2 = new DemoPojo2();
         o2.value = "demo_pojo:" + o1.value;
         return o2;
@@ -18,18 +18,13 @@ public class DemoPojoConvertor implements Convertor {
     }
 
     @Override
-    public boolean acceptSourceType(Class<?> cl) {
-        return this.getSourceType().equals(cl);
+    public boolean acceptInputType(Class<?> cl) {
+        return DemoPojo1.class.equals(cl);
     }
 
     @Override
-    public boolean acceptSourceObject(Object src) {
-        return (src instanceof DemoPojo);
-    }
-
-    @Override
-    public Class<?> getSourceType() {
-        return DemoPojo.class;
+    public boolean acceptInputObject(Object src) {
+        return (src instanceof DemoPojo1);
     }
 
     private static class MyConvertorRegistry implements ConvertorRegistry {
@@ -37,14 +32,39 @@ public class DemoPojoConvertor implements Convertor {
         @Override
         public ConvertorRegistration[] listConvertorRegistrations() {
             Convertor convertor = new DemoPojoConvertor();
-            ConvertorRegistration cr = new ConvertorRegistration();
-            cr.setConvertor(convertor);
-            cr.setSourceType(convertor.getSourceType());
-            return new ConvertorRegistration[] { cr };
+            ConvertorRegistration cr = convertor.getRegistration();
+
+            ConvertorRegistration cr1 = new ConvertorRegistration(cr);
+            ConvertorRegistration cr2 = new ConvertorRegistration(cr);
+            ConvertorRegistration cr3 = new ConvertorRegistration(cr);
+
+            cr1.setName("a");
+            cr2.setName("b");
+            cr3.setName(null);
+
+            cr1.setPriority(88);
+            cr2.setPriority(22);
+            cr3.setPriority(55);
+
+            return new ConvertorRegistration[] { cr1, cr2, cr3 };
         }
     }
 
     public static ConvertorRegistry getRegistry() {
         return new MyConvertorRegistry();
+    }
+
+    @Override
+    public ConvertorRegistration getRegistration() {
+        ConvertorRegistration cr;
+
+        cr = new ConvertorRegistration();
+        cr.setConvertor(this);
+        cr.setInputType(DemoPojo1.class);
+        cr.setOutputType(DemoPojo2.class);
+        cr.setPriority(1);
+        cr.setName("a");
+
+        return cr;
     }
 }

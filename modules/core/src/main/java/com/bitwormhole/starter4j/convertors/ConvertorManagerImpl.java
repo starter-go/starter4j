@@ -12,31 +12,35 @@ final class ConvertorManagerImpl extends ConvertorManager {
     }
 
     @Override
-    public Convertor findConvertor(Class<?> sourceType) {
-        return mMainProvider.findConvertor(sourceType);
+    public Convertor findConvertor(ConvertorSelector sel) {
+        return mMainProvider.findConvertor(sel);
     }
 
     @Override
-    public Convertor[] findConvertors(Class<?> sourceType) {
-        return mMainProvider.findConvertors(sourceType);
+    public Convertor[] findConvertors(ConvertorSelector sel) {
+        return mMainProvider.findConvertors(sel);
     }
 
     @Override
-    public Convertor forObject(Object sourceObject) {
-        if (sourceObject == null) {
+    public Convertor findConvertor(Object in, Class<?> out) {
+        if (in == null || out == null) {
             return null;
         }
-        Class<?> t = sourceObject.getClass();
-        return this.findConvertor(t);
+        ConvertorSelector sel = new ConvertorSelector();
+        sel.setInputType(in.getClass());
+        sel.setOutputType(out);
+        return this.findConvertor(sel);
     }
 
     @Override
-    public Convertor[] findConvertorsForObject(Object sourceObject) {
-        if (sourceObject == null) {
+    public Convertor[] findConvertors(Object in, Class<?> out) {
+        if (in == null || out == null) {
             return new Convertor[] {};
         }
-        Class<?> t = sourceObject.getClass();
-        return this.findConvertors(t);
+        ConvertorSelector sel = new ConvertorSelector();
+        sel.setInputType(in.getClass());
+        sel.setOutputType(out);
+        return this.findConvertors(sel);
     }
 
     @Override

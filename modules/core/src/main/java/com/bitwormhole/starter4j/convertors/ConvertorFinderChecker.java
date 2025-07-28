@@ -7,19 +7,19 @@ public class ConvertorFinderChecker extends ConvertorProviderWrapper {
     }
 
     @Override
-    public Convertor findConvertor(Class<?> sourceType) {
-        Convertor c = super.findConvertor(sourceType);
+    public Convertor findConvertor(ConvertorSelector sel) {
+        Convertor c = super.findConvertor(sel);
         if (c == null) {
-            throw new RuntimeException("no convertor for type of " + sourceType);
+            throw new RuntimeException("no convertor for selector of " + sel);
         }
         return c;
     }
 
     @Override
-    public Convertor[] findConvertors(Class<?> sourceType) {
-        Convertor[] array = super.findConvertors(sourceType);
+    public Convertor[] findConvertors(ConvertorSelector sel) {
+        Convertor[] array = super.findConvertors(sel);
         if (!hasConvertors(array)) {
-            throw new RuntimeException("no convertor for type of " + sourceType);
+            throw new RuntimeException("no convertor for selector of " + sel);
         }
         return array;
     }

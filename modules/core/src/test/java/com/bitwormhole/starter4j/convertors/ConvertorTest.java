@@ -14,10 +14,10 @@ public class ConvertorTest {
         ConvertorManager cm = ConvertorManager.getInstance();
         cm.register(this.getConvertorRegistry());
 
-        DemoPojo o1 = new DemoPojo();
+        DemoPojo1 o1 = new DemoPojo1();
         o1.value = 2333;
 
-        Convertor convertor = cm.forObject(o1);
+        Convertor convertor = cm.findConvertor(o1, DemoPojo2.class);
         DemoPojo2 o2 = convertor.convert(o1, DemoPojo2.class);
 
         logger.info("o1 = " + o1);
@@ -29,11 +29,12 @@ public class ConvertorTest {
 
         ConvertorManager cm = ConvertorManager.getInstance();
         cm.register(this.getConvertorRegistry());
+        DemoPojo1 o1 = new DemoPojo1();
 
-        Convertor convertor1 = cm.findConvertor(DemoPojo.class);
+        Convertor convertor1 = cm.findConvertor(o1, DemoPojo2.class);
         Convertor convertor2 = null;
         try {
-            convertor2 = cm.findConvertor(DemoPojo2.class);
+            convertor2 = cm.findConvertor(o1.getClass(), DemoPojo2.class);
         } catch (Exception e) {
             logger.warn(e.getMessage());
         }
@@ -52,7 +53,7 @@ public class ConvertorTest {
         cm.register(this.getConvertorRegistry());
 
         try {
-            c = cm.findConvertor(String.class);
+            c = cm.findConvertor(String.class, Long.class);
         } catch (Exception e) {
             System.err.println(e.getMessage()); // ok
             err = e;

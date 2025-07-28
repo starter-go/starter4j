@@ -5,9 +5,9 @@ public abstract class ConvertorManager implements ConvertorProvider {
     ////////////////////////////////////////////////////////////////////////////
     /// public
 
-    public abstract Convertor forObject(Object sourceObject);
+    public abstract Convertor findConvertor(Object in, Class<?> out);
 
-    public abstract Convertor[] findConvertorsForObject(Object sourceObject);
+    public abstract Convertor[] findConvertors(Object in, Class<?> out);
 
     public abstract void register(ConvertorRegistration reg);
 

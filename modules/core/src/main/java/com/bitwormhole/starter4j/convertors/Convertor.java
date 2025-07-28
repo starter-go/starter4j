@@ -2,14 +2,14 @@ package com.bitwormhole.starter4j.convertors;
 
 public interface Convertor {
 
-    Object convert(Object src);
+    Object convert(Object in);
 
-    <T> T convert(Object src, Class<T> targetType);
+    <T> T convert(Object in, Class<T> output_type);
 
-    boolean acceptSourceType(Class<?> cl);
+    boolean acceptInputType(Class<?> cl);
 
-    boolean acceptSourceObject(Object src);
+    boolean acceptInputObject(Object in);
 
-    Class<?> getSourceType();
+    ConvertorRegistration getRegistration();
 
 }

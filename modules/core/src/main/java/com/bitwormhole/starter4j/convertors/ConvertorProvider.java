@@ -2,8 +2,8 @@ package com.bitwormhole.starter4j.convertors;
 
 public interface ConvertorProvider {
 
-    Convertor findConvertor(Class<?> sourceType);
+    Convertor findConvertor(ConvertorSelector sel);
 
-    Convertor[] findConvertors(Class<?> sourceType);
+    Convertor[] findConvertors(ConvertorSelector sel);
 
 }
